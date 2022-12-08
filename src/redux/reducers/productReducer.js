@@ -76,6 +76,7 @@ const productReducer = createSlice({
         0
       );
     },
+    
     deleteItem(state, action) {
       const id = action.payload;
       const existingItem = state.productCart.find((item) => item.id === id);

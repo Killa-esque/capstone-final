@@ -12,7 +12,7 @@ const HomeTemplate = () => {
   return (
     <>
       <Header />
-      {/* cartIsVisible = true => show Cart */}
+      {/* Show Cart */}
       {cartIsVisible && <Carts />}
       <Outlet />
       <Footer />
