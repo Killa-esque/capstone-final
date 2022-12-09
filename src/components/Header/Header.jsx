@@ -4,7 +4,7 @@ import { Container } from "reactstrap";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-// logo 
+// image
 import logo from "../../assets/images/logo.png";
 
 // css
@@ -12,27 +12,19 @@ import "../../assets/css/header.css";
 
 // redux
 import { toggleUI } from "../../redux/reducers/cardUIReducer";
-// import { getProfileApi } from '../../redux/reducers/userReducer'
-
 const Header = () => {
   const dispatch = useDispatch();
   const { totalQuantity } = useSelector((state) => state.products);
-  // const { user } = useSelector(state => state.user)
 
   const headerRef = useRef(null);
   const menuRef = useRef(null);
-
-  // show menu in mobile device
   const handleToggleMenu = () => menuRef.current.classList.toggle("show__menu");
 
-  // Invoice handling function open cart 
   const handleToggleCart = () => {
     dispatch(toggleUI());
   };
 
-  const handleNavigateProfile = () => {
-    // dispatch(getProfileApi())
-  }
+ 
   const nav__links = [
     {
       display: "Home",
@@ -50,7 +42,6 @@ const Header = () => {
   ];
 
   useEffect(() => {
-    // scrollbar handler function
     window.addEventListener("scroll", () => {
       if (
         document.body.scrollTop > 80 ||
@@ -106,12 +97,9 @@ const Header = () => {
                   <Link to={"/login"}>
                     <i className="ri-user-line"></i>
                   </Link>
-                  {/* {user ? <span style={{fontSize: '.8rem'}}>
-                    <Link to='/profile' onClick={handleNavigateProfile} className="text-black">{user.email}</Link>
-                    </span> : ''} */}
-                   <span style={{fontSize: '.8rem'}}>
-                    <Link to='/profile' onClick={handleNavigateProfile} className="text-black">Username</Link>
-                    </span>
+                  {true ? <span style={{fontSize: '.8rem'}}>
+                    <Link to='/profile' className="text-black">username</Link>
+                    </span> : ''}
                 </span>
               <span className="mobile__menu" onClick={handleToggleMenu}>
                 <i className="ri-menu-line"></i>
