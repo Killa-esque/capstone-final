@@ -26,7 +26,7 @@ const ProductCard = ({ product }) => {
     <div className='product__item'>
       <div className="product__img">
         <motion.img whileHover={{ scale: 1.2 }}
-          className='w-50' src={image} alt="" />
+          className='w-50 mx-auto' src={image} alt="" />
       </div>
       <div className='product__content'>
         <h5>
