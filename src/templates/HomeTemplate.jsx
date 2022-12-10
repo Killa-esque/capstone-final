@@ -1,8 +1,11 @@
 import React from 'react'
+import Footer from '../components/Footer/Footer'
 
 const HomeTemplate = () => {
   return (
-    <div>HomeTemplate</div>
+    <div>
+      <Footer></Footer>
+    </div>
   )
 }
 
