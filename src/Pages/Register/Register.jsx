@@ -10,27 +10,26 @@ import { basicSchema } from '../../validation/FormValidation';
 
 const Register = () => {
 
-  const form = useFormik({
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      phoneNumber: '',
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phoneNumber: "",
       // toggle: true
     },
-    validationSchema: basicSchema,
+    // validationSchema: basicSchema,
     // onSubmit: (values) => {
     //   // const actionAsync = loginAPI(values);
     //   // dispatch(actionAsync);
     //   console.log('values')
     // }
   })
-  console.log(form.errors)
+  // console.log(first)
   return (
 
     <form className='container form-control my-5' style={{ maxWidth: '800px', borderRadius: '20px' }}>
-
       <div className='text-center'>
         <img className='my-2' src={logo} alt="..." />
         <h2 className="text-uppercase text-center mb-5" style={{ color: '#df2020' }}>Create an account</h2>
@@ -38,37 +37,37 @@ const Register = () => {
 
       {/* <!-- Username input --> */}
       <div className="form-outline mb-4">
-        <label className="form-label" for="registerUsername" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Username</label>
-        <input value={form.values.name} type="text" id="registerUsername" className="form-control" placeholder='Enter your name' onChange={form.handleChange} onBlur={form.handleBlur} />
-        {form.errors.name && form.touched.name && <p className='text-warning'>{form.errors.name}</p>}
+        <label className="form-label" htmlFor="registerUsername" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Username</label>
+        <input onChange={handleChange} onBlur={handleBlur} value={values.name} type="text" id="registerUsername" className="form-control" placeholder='Enter your name' />
+        {errors.name && touched.name && <p className='text-warning'>{errors.name}</p>}
       </div>
 
       {/* <!-- Email input --> */}
       <div className="form-outline mb-4">
-        <label className="form-label" for="registerEmail" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Email</label>
-        <input value={form.values.email} type="email" id="registerEmail" className="form-control" placeholder='Enter your email' onChange={form.handleChange} onBlur={form.handleBlur} />
-        {form.errors.email && form.touched.email && <p className='text-warning'>{form.errors.email}</p>}
+        <label className="form-label" htmlFor="registerEmail" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Email</label>
+        <input onChange={handleChange} onBlur={handleBlur} value={values.email} type="email" id="registerEmail" className="form-control" placeholder='Enter your email' />
+        {errors.email && touched.email && <p className='text-warning'>{errors.email}</p>}
       </div>
 
       {/* <!-- Password input --> */}
       <div className="form-outline mb-4">
-        <label className="form-label" for="registerPassword" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Password</label>
-        <input value={form.values.password} type="password" id="registerPassword" className="form-control" placeholder='Enter your password' onChange={form.handleChange} onBlur={form.handleBlur} />
-        {form.errors.password && form.touched.password && <p className='text-warning'>{form.errors.password}</p>}
+        <label className="form-label" htmlFor="registerPassword" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Password</label>
+        <input onChange={handleChange} onBlur={handleBlur} value={values.password} type="password" id="registerPassword" className="form-control" placeholder='Enter your password' />
+        {errors.password && touched.password && <p className='text-warning'>{errors.password}</p>}
       </div>
 
       {/* <!-- Repeat Password input --> */}
       <div className="form-outline mb-4">
-        <label className="form-label" for="registerRepeatPassword" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Repeat password</label>
-        <input value={form.values.confirmPassword} type="password" id="registerRepeatPassword" className="form-control" placeholder='Confirm password' onChange={form.handleChange} onBlur={form.handleBlur} />
-        {form.errors.confirmPassword && form.touched.confirmPassword && <p className='text-warning'>{form.errors.confirmPassword}</p>}
+        <label className="form-label" htmlFor="registerRepeatPassword" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Repeat password</label>
+        <input onChange={handleChange} onBlur={handleBlur} value={values.confirmPassword} type="password" id="registerRepeatPassword" className="form-control" placeholder='Confirm password' />
+        {errors.confirmPassword && touched.confirmPassword && <p className='text-warning'>{errors.confirmPassword}</p>}
       </div>
 
       {/* <!-- Phone Number input --> */}
       <div className="form-outline mb-4">
-        <label className="form-label" for="registerPhoneNumber" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Phone Number</label>
-        <input value={form.values.phoneNumber} type="text" id="registerPhoneNumber" className="form-control" placeholder='Phone number' onChange={form.handleChange} onBlur={form.handleBlur} />
-        {form.errors.phoneNumber && form.touched.phoneNumber && <p className='text-warning'>{form.errors.phoneNumber}</p>}
+        <label className="form-label" htmlFor="registerPhoneNumber" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Phone Number</label>
+        <input onChange={handleChange} onBlur={handleBlur} value={values.phoneNumber} type="text" id="registerPhoneNumber" className="form-control" placeholder='Phone number' />
+        {errors.phoneNumber && touched.phoneNumber && <p className='text-warning'>{errors.phoneNumber}</p>}
       </div>
 
       {/* <!-- Submit button --> */}

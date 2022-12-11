@@ -33,7 +33,10 @@ export const basicSchema = yup.object().shape({
     .max(40)
     .required('Required')
     .matches(nameRegex, 'Please enter valid name'),
-  email: yup.string().email('Please enter a valid email address').required('Required'),
+  email: yup
+    .string()
+    .email('Please enter a valid email address')
+    .required('Required'),
   password: yup
     .string()
     .min(8)
@@ -43,9 +46,7 @@ export const basicSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null, 'Password must match'])
     .required('Required'),
-  phoneNumber: yup.string().required('Required')
-  // toggle: yup.string().when("toggle", {
-  //   is: true,
-  //   then: yup.string().required("Select food")
-  // }),
+  phoneNumber: yup
+    .string()
+    .required('Required')
 })
