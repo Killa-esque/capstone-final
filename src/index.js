@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'remixicon/fonts/remixicon.css'
+// global css
+import './App.css'
 // Config Router
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -16,6 +19,7 @@ import Profile from './Pages/Profile/Profile';
 import Search from './Pages/Search/Search';
 import Cart from './Pages/Cart/Cart';
 import Detail from './Pages/Detail/Detail';
+import Carts from './components/UI/Cart/Carts';
 
 // Templates
 import HomeTemplate from './templates/HomeTemplate';
