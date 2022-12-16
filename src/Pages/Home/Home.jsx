@@ -12,7 +12,7 @@ import ProductCard from "../../components/UI/ProductCard/ProductCard";
 import "../../assets/css/hero-section.css";
 import "../../assets/css/home.css";
 // store redux
-import {
+import { 
   getAllProductsApi,
   getAllProductsByCategoryApi,
 } from "../../redux/reducers/productReducer";

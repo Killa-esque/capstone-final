@@ -27,12 +27,12 @@ const toNonAccentVietnamese = (str) => {
   return str;
 }
 
-export const basicSchema = yup.object().shape({
+export const registerSchema = yup.object().shape({
   name: yup
     .string()
     .max(40)
-    .required('Required')
-    .matches(nameRegex, 'Please enter valid name'),
+    .matches(nameRegex, 'Please enter valid name')
+    .required('Required'),
   email: yup
     .string()
     .email('Please enter a valid email address')
@@ -40,13 +40,22 @@ export const basicSchema = yup.object().shape({
   password: yup
     .string()
     .min(8)
-    .matches(passwordRegex, { message: "Your password is strong enough" })
+    .matches(passwordRegex, { message: "Your password is not strong enough" })
     .required('Required'),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null, 'Password must match'])
+    .oneOf([yup.ref('password'), null], 'Password must match')
     .required('Required'),
   phoneNumber: yup
     .string()
-    .required('Required')
+    .required('Required'),
+  gender: yup
+    .boolean()
+    // .oneOf([true, false], 'Please choose your sex')
+    .required('Please choose your sex')
+})
+
+export const loginSchema = yup.object().shape({
+  email: yup.string().required('Email is required').email('Email is invalid!'),
+  password: yup.string().required('Password is required')
 })

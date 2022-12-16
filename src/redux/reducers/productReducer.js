@@ -5,7 +5,8 @@ const initialState = {
   totalQuantity: 0,
   totalAmount: 0,
   productCart: [],
-  productDetail: []
+  productDetail: [],
+  page: 1
 };
 
 const productReducer = createSlice({
@@ -76,7 +77,7 @@ const productReducer = createSlice({
         0
       );
     },
-    
+
     deleteItem(state, action) {
       const id = action.payload;
       const existingItem = state.productCart.find((item) => item.id === id);
@@ -90,12 +91,16 @@ const productReducer = createSlice({
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
       );
+    },
+
+    clearCartAction: (state, action) => {
+      state.productCart = [];
     }
 
   },
 });
 
-export const { getAllProductsByCategoryAction, getAllProductsAction, deleteItem, addItem, removeItem, getProductByIdAction } =
+export const { getAllProductsByCategoryAction, getAllProductsAction, deleteItem, addItem, removeItem, getProductByIdAction, clearCartAction } =
   productReducer.actions;
 
 export default productReducer.reducer;
@@ -142,5 +147,11 @@ export const getProductById = id => {
     } catch (error) {
       console.log(error)
     }
+  }
+}
+
+export const clearCart = (arrNull) => {
+  return async (dispatch) => {
+    dispatch(clearCartAction([]))
   }
 }
