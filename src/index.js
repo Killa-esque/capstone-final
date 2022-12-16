@@ -5,7 +5,7 @@ import 'remixicon/fonts/remixicon.css'
 // global css
 import './App.css'
 // Config Router
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 
 // Config redux
 import { Provider } from 'react-redux';
@@ -24,10 +24,14 @@ import Carts from './components/UI/Cart/Carts';
 // Templates
 import HomeTemplate from './templates/HomeTemplate';
 
+// Config history
+import { createBrowserHistory } from 'history';
+export const history = createBrowserHistory();
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <HistoryRouter history={history}>
       <Routes>
         <Route path='' element={<HomeTemplate />}>
           <Route index element={<Home />}></Route>
@@ -40,7 +44,7 @@ root.render(
           <Route path='*' element={<Navigate to='/' />}></Route>
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   </Provider>
 );
 
