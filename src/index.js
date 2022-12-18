@@ -39,7 +39,9 @@ root.render(
           <Route path='register' element={<Register />}></Route>
           <Route path='profile' element={<Profile />}></Route>
           <Route path='search' element={<Search />}></Route>
-          <Route path='detail' element={<Detail />}></Route>
+          <Route path='detail' element={<Detail />}>
+            <Route path=':id' element={<Detail />}></Route>
+          </Route>
           <Route path='cart' element={<Cart />}></Route>
           <Route path='*' element={<Navigate to='/' />}></Route>
         </Route>
