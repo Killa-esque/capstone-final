@@ -48,11 +48,11 @@ const Login = () => {
             <MDBCard>
               <MDBRow className='g-0'>
 
-                <MDBCol md='6'>
+                <MDBCol md='5'>
                   <MDBCardImage src={shoesRegister} alt="login form" className='rounded-start w-100 h-100' style={{ objectFit: 'cover' }} />
                 </MDBCol>
 
-                <MDBCol md='6'>
+                <MDBCol md='7'>
                   <MDBCardBody className='d-flex flex-column justify-content-center py-5'>
 
                     <div className='d-flex flex-row align-items-center'>

@@ -24,7 +24,7 @@ const Header = () => {
     dispatch(toggleUI());
   };
 
- 
+
   const nav__links = [
     {
       display: "Home",
@@ -38,7 +38,7 @@ const Header = () => {
       display: "Cart",
       path: "/cart",
     },
-  
+
   ];
 
   useEffect(() => {
@@ -94,13 +94,13 @@ const Header = () => {
                 <span className="cart__badge">{totalQuantity}</span>
               </span>
               <span className="user gap-2 d-flex align-items-center justify-content-center">
-                  <Link to={"/login"}>
-                    <i className="ri-user-line"></i>
-                  </Link>
-                  {true ? <span style={{fontSize: '.8rem'}}>
-                    <Link to='/profile' className="text-black">username</Link>
-                    </span> : ''}
-                </span>
+                <Link to={"/login"}>
+                  <i className="ri-user-line"></i>
+                </Link>
+                {true ? <span style={{ fontSize: '.8rem' }}>
+                  <Link to='/profile' className="text-black">username</Link>
+                </span> : ''}
+              </span>
               <span className="mobile__menu" onClick={handleToggleMenu}>
                 <i className="ri-menu-line"></i>
               </span>
