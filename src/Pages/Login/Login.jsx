@@ -25,7 +25,6 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-
   return (
     <Formik
       initialValues={{
@@ -53,7 +52,7 @@ const Login = () => {
                 </MDBCol>
 
                 <MDBCol md='7'>
-                  <MDBCardBody className='d-flex flex-column justify-content-center py-5'>
+                  <MDBCardBody className='d-flex flex-column justify-content-center py-5 px-5'>
 
                     <div className='d-flex flex-row align-items-center'>
                       <div className='d-flex'>
@@ -96,10 +95,8 @@ const Login = () => {
                     <p>© All rights reserved.</p>
                   </div>
                 </MDBCol>
-
               </MDBRow>
             </MDBCard>
-
           </MDBContainer>
         </Form>
       )}
