@@ -1,13 +1,32 @@
 import { MDBBreadcrumb, MDBBreadcrumbItem, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCol, MDBContainer, MDBRow } from 'mdb-react-ui-kit';
-import React from 'react'
+import React, { useEffect } from 'react'
+// Hook
+import { useDispatch, useSelector } from 'react-redux';
 
 import { NavLink } from 'react-router-dom';
 
+// import async function from redux
+import { getProfileApi } from '../../redux/reducers/userReducer';
+
+//Image
+import avatar1 from "../../assets/images/avatar1.jpg";
+import avatar2 from "../../assets/images/avatar2.jpg";
+import avatar3 from "../../assets/images/avatar3.jpg";
+import avatar4 from "../../assets/images/avatar4.jpg";
+import avatar5 from "../../assets/images/avatar5.jpg";
+
+const arrImage = [avatar1, avatar2, avatar3, avatar4, avatar5]
 
 const UserProfile = () => {
+  const { userProfile } = useSelector(state => state.userReducer);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const actionAsync = getProfileApi();
+    dispatch(actionAsync);
+  }, [])
   return (
     <section style={{ backgroundColor: '#eee', padding: '50px 0 0 0' }}>
-      <MDBContainer className="">
+      <MDBContainer>
         <MDBRow>
           <MDBCol>
             <MDBBreadcrumb className="bg-light rounded-3 p-3 mb-4">
@@ -24,16 +43,15 @@ const UserProfile = () => {
             <MDBCard className="mb-4 pb-3">
               <MDBCardBody className="text-center">
                 <MDBCardImage
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                  src={arrImage[Math.floor(Math.random() * arrImage.length)]}
                   alt="avatar"
-                  className="rounded-circle"
-                  style={{ width: '150px' }}
+                  className="rounded-circle"  
+                  style={{ width: '150px', height:'150px' }}
                   fluid />
-                <p className="text-muted mb-1">Full Stack Developer</p>
-                <p className="text-muted mb-4">Cybersoft</p>
+                <p className="text-muted mb-1 mt-2">Hi, xin chào các bạn mình là {userProfile?.name} </p>
+                <p className="text-muted mb-4">Mình là học viên tại Cybersoft</p>
               </MDBCardBody>
             </MDBCard>
-
           </MDBCol>
           <MDBCol lg="8">
             <MDBCard className="mb-4">
@@ -43,7 +61,7 @@ const UserProfile = () => {
                     <MDBCardText>Full Name</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">Johnatan Smith</MDBCardText>
+                    <MDBCardText className="text-muted">{userProfile?.name}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -52,7 +70,7 @@ const UserProfile = () => {
                     <MDBCardText>Email</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">example@example.com</MDBCardText>
+                    <MDBCardText className="text-muted">{userProfile?.email}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -61,16 +79,16 @@ const UserProfile = () => {
                     <MDBCardText>Phone</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">(097) 234-5678</MDBCardText>
+                    <MDBCardText className="text-muted">{userProfile?.phone}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
                 <MDBRow>
                   <MDBCol sm="3">
-                    <MDBCardText>Mobile</MDBCardText>
+                    <MDBCardText>Carrer</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">(098) 765-4321</MDBCardText>
+                    <MDBCardText className="text-muted">Web developer</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -79,12 +97,11 @@ const UserProfile = () => {
                     <MDBCardText>Address</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">Bay Area, San Francisco, CA</MDBCardText>
+                    <MDBCardText className="text-muted">Ho Chi Minh</MDBCardText>
                   </MDBCol>
                 </MDBRow>
               </MDBCardBody>
             </MDBCard>
-
           </MDBCol>
         </MDBRow>
       </MDBContainer>

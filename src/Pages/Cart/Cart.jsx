@@ -13,16 +13,20 @@ import Helmet from "../../components/Helmet/Helmet";
 import "../../assets/css/cart-page.css";
 //redux
 import { deleteItem } from "../../redux/reducers/productReducer";
+import { checkOutOrder } from "../../redux/reducers/userReducer";
 
 const Cart = () => {
   const { totalAmount, productCart } = useSelector(
     (state) => state.products
   );
+  const dispatch = useDispatch();
 
   // xử lý checkout
   const handleCheckout = (e) => {
     try {
       e.preventDefault()
+      const action = checkOutOrder([...productCart])
+      dispatch(action);
       toast.success("Checkout completed successfully");
 
     } catch (error) {
@@ -102,7 +106,7 @@ const Cart = () => {
 
 export default Cart;
 
-const Tr = ({ item }) => {
+export const Tr = ({ item }) => {
   const { id, image, name, price, quantity } = item;
   const dispatch = useDispatch();
 
@@ -114,10 +118,10 @@ const Tr = ({ item }) => {
       <td className="cart__img-box">
         <img src={image} alt="" />
       </td>
-      <td>{name}</td>
-      <td>${price}</td>
-      <td>{quantity}</td>
-      <td className="cart__item-del">
+      <td style={{ verticalAlign: 'middle' }}>{name}</td>
+      <td style={{ verticalAlign: 'middle' }}>${price}</td>
+      <td style={{ verticalAlign: 'middle' }}>{quantity}</td>
+      <td className="cart__item-del" style={{ verticalAlign: 'middle' }}>
         <span onClick={handleDeleteItem}>
           <i className="ri-delete-bin-line"></i>
         </span>

@@ -36,8 +36,7 @@ const ProductCard = ({ product }) => {
           <span className='product__price'>
             ${price}
           </span>
-          
-          <motion.button whileTap={{scale: 1.2}} onClick={handleAddToCart} className='addToCart__btn'>
+          <motion.button whileTap={{ scale: 1.2 }} onClick={handleAddToCart} className='addToCart__btn'>
             Add to Cart
           </motion.button>
         </div>
