@@ -8,10 +8,11 @@ import { Container, Row, Col } from "reactstrap";
 import { motion } from "framer-motion";
 import "../../assets/css/product-detail.css";
 import ProductCard from "../../components/UI/ProductCard/ProductCard";
+import { getFavoriteProduct } from "../../redux/reducers/userReducer";
 const Detail = () => {
   const { id } = useParams();
   const { productDetail } = useSelector((state) => state.products);
-  const { name, image, price, description, shortDescription } = productDetail;
+  const { name, image, price, quantity, description, shortDescription } = productDetail;
 
   const dispatch = useDispatch();
   const [tab, setTab] = useState("desc");
@@ -30,6 +31,16 @@ const Detail = () => {
         image,
       })
     );
+  };
+  const handleAddFavorite = () => {
+    const action = getFavoriteProduct({
+      id,
+      name,
+      price,
+      quantity,
+      image,
+    })
+    dispatch(action);
   };
 
   useEffect(() => {
@@ -105,10 +116,18 @@ const Detail = () => {
 
                   <motion.button
                     whileTap={{ scale: 1.2 }}
-                    className="addToCart__btn"
+                    className="addToCart__btn mx-2"
                     onClick={handleAddItem}
                   >
                     Add to Cart
+                  </motion.button>
+
+                  <motion.button
+                    whileTap={{ scale: 1.2 }}
+                    className="addToCart__btn mx-2"
+                    onClick={handleAddFavorite}
+                  >
+                    Add to your favorite
                   </motion.button>
                 </div>
               </Col>
