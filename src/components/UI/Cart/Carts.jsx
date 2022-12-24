@@ -32,8 +32,8 @@ const Carts = () => {
         <div className="cart__item-list">
           {
             //check if the user clicked buy or not  
-            productCart.length === 0 ? <h5 className='text-center mt-5'>
-              No item added to cart</h5> : productCart.map((product, index) => {
+            productCart?.length === 0 ? <h5 className='text-center mt-5'>
+              No item added to cart</h5> : productCart?.map((product, index) => {
                 return (
                   <CartItem product={product} key={index} />
                 )
