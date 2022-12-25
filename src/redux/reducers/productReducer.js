@@ -5,7 +5,7 @@ const initialState = {
   productList: [],
   totalQuantity: 0,
   totalAmount: 0,
-  productCart: [],
+  productCart: USER_CART,
   productDetail: [],
   page: 1
 };
