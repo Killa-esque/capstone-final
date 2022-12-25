@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Table, Container } from 'reactstrap';
 import classnames from 'classnames';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ReactPaginate from 'react-paginate';
+import moment from 'moment';
+import '../../assets/css/profile.css'
 // components
 import CommonSection from "../../components/UI/Common Section/CommonSection";
 import Helmet from "../../components/Helmet/Helmet";
-import { Tr } from '../../Pages/Cart/Cart';
-
+import { USER_PROFILE, getStoreJson } from '../../util/config';
+import { getProfileApi } from "../../redux/reducers/userReducer";
 const UserOrdered = () => {
-  const { userOrderHistory, userFavorite, userProfile } = useSelector((state) => state.userReducer);
-  const [activeTab, setactiveTab] = useState('1');
-  const [pageNumber, setPageNumber] = useState(0);
-  const [productData, setProductData] = useState(userOrderHistory);
+  const disatch = useDispatch();
 
-  // Number of product for each page
-  const productPerTab = 3;
-  // Get the visited page
-  const vistedPage = pageNumber * productPerTab;
-  // Show the product each page
-  const displayPage = productData?.slice(
-    vistedPage,
-    vistedPage + productPerTab
-  );
-  const pageCount = Math.ceil(productData?.length / productPerTab);
-  // Function to paginate
-  const changePage = ({ selected }) => {
-    setPageNumber(selected);
-  };
-  // UseEffect to reload when every state is changed
+  const { userOrderHistory, userFavorite, userProfile } = useSelector((state) => state.userReducer);
+
+  const getProfile = getStoreJson(USER_PROFILE);
+  const [profile, setProfile] = useState(getProfile);
+
+  const [activeTab, setactiveTab] = useState('1');
+
   useEffect(() => {
-    setProductData(userOrderHistory);
-  }, [userOrderHistory]);
+    disatch(getProfileApi())
+  }, [])
+
+  useEffect(() => {
+    setProfile(getProfile);
+  }, [userProfile]);
+
   const toggle = (tab) => {
     if (activeTab !== tab) {
       setactiveTab(tab);
@@ -74,40 +70,27 @@ const UserOrdered = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {productData?.length !== 0 ? (
-                      <>
-                        {displayPage?.map((values, index) => {
-                          return (
-                            <tr className='text-center'>
-                              <td scope="row" style={{ verticalAlign: 'middle' }}>{index + 1}</td>
-                              <td className='cart__img-box'>
-                                <img className='w-100 h-100' src={values.image} alt="..." style={{ objectFit: 'contain', verticalAlign: 'middle' }} />
-                              </td>
-                              <td style={{ verticalAlign: 'middle' }}>{values.name}</td>
-                              <td style={{ verticalAlign: 'middle' }}>{values.price}$</td>
-                              <td style={{ verticalAlign: 'middle' }}>{values.quantity}</td>
-                              <td style={{ verticalAlign: 'middle' }}>{values.quantity * values.price}$</td>
-                            </tr>
-                          );
-                        })}
-                      </>
-                    ) : (
-                      <tr className='w-100 text-center fs-4 fw-bold'>
-                        <td colSpan={6}>No product founded!!</td>
-                      </tr>
-                    )}
+                  {profile?.ordersHistory
+                          ?.slice(-3)
+                          .map((order, index) => {
+                            return (
+                              <Fragment key={index}>
+                                <tr>
+                                  <td colSpan={12} className="order__date">
+                                    <span>Order date:</span>{" "}
+                                    {moment(order.date).format(
+                                      "MMMM Do YYYY, h:mm:ss a"
+                                    )}
+                                  </td>
+                                </tr>
+                                <Tr item={order} />
+                              </Fragment>
+                            );
+                          })}
                   </tbody>
                 </Table>
               </Col>
-              <div>
-                <ReactPaginate
-                  pageCount={pageCount}
-                  onPageChange={changePage}
-                  previousLabel="Prev"
-                  nextLabel="Next"
-                  containerClassName="paginationBtns"
-                />
-              </div>
+        
             </Row>
           </TabPane>
           <TabPane tabId="2">
@@ -155,4 +138,23 @@ const UserOrdered = () => {
   )
 }
 
-export default UserOrdered
+export default UserOrdered;
+const Tr = ({ item }) => {
+  return (
+    <>
+      {item.orderDetail.map((detail, index) => {
+        const { name, price, image, quantity } = detail;
+        return (
+          <tr className="text-center profile__detail" key={index}>
+            <td className="cart__img">
+              <img src={image} alt="" />
+            </td>
+            <td>{name}</td>
+            <td>{quantity}</td>
+            <td>${price}</td>
+          </tr>
+        );
+      })}
+    </>
+  );
+};
