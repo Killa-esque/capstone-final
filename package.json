@@ -24,6 +24,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
+    "react-facebook-login": "^4.1.1",
     "react-jwt": "^1.1.7",
     "react-paginate": "^8.1.4",
     "react-redux": "^8.0.5",
@@ -39,7 +40,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

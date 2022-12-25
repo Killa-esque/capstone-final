@@ -1,6 +1,6 @@
 import CartProfile from "../../components/CartProfile/CartProfile";
 // library
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col } from "reactstrap";
 import { motion } from "framer-motion";
@@ -14,13 +14,13 @@ import "../../assets/css/cart-page.css";
 //redux
 import { deleteItem } from "../../redux/reducers/productReducer";
 import { checkOutOrder } from "../../redux/reducers/userReducer";
+import { getStore, getStoreJson, USER_CART } from "../../util/config";
 
 const Cart = () => {
   const { totalAmount, productCart } = useSelector(
     (state) => state.products
   );
   const dispatch = useDispatch();
-
   // xử lý checkout
   const handleCheckout = (e) => {
     try {
@@ -36,6 +36,7 @@ const Cart = () => {
     }
   };
 
+
   return (
     <Helmet title="Cart">
       <CommonSection title={"Your Cart"} />
@@ -43,7 +44,7 @@ const Cart = () => {
         <Container>
           <Row>
             <Col lg="9">
-              {productCart.length === 0 ? (
+              {productCart?.length === 0 ? (
                 <div className="text-center">
                   <h5 className="mt-4">No products added to cart</h5>
                 </div>
@@ -61,7 +62,7 @@ const Cart = () => {
                   <tbody>
                     {
                       <>
-                        {productCart.map((item, index) => {
+                        {productCart?.map((item, index) => {
                           return <Tr item={item} key={index} />;
                         })}
                       </>
@@ -104,7 +105,7 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default memo(Cart);
 
 export const Tr = ({ item }) => {
   const { id, image, name, price, quantity } = item;

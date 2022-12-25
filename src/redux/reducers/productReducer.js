@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getStoreJson, saveStoreJson, USER_CART } from "../../util/config";
 const initialState = {
   productList: [],
   totalQuantity: 0,
@@ -23,15 +24,17 @@ const productReducer = createSlice({
       state.productDetail = action.payload;
     },
     addItem: (state, action) => {
+      console.log(action.payload)
       const newItem = action.payload;
       // Check if product already exists or not
-      const existingItem = state.productCart.find(
+      const existingItem = state.productCart?.find(
         (item) => item.id === newItem.id
       );
       state.totalQuantity++;
       // not: add new item to cart
       if (!existingItem) {
-        state.productCart.push({
+        console.log('!existingItem')
+        state.productCart?.push({
           id: newItem.id,
           name: newItem.name,
           image: newItem.image,
@@ -39,8 +42,9 @@ const productReducer = createSlice({
           quantity: 1,
           totalPrice: newItem.price,
         });
+        console.log(state.productCart)
       } else {
-
+        console.log('existingItem')
         // Already have: => increasing quantity, at the same time recalculate the total price = existing money + new amount
         existingItem.quantity++;
         existingItem.totalPrice =
@@ -48,15 +52,16 @@ const productReducer = createSlice({
       }
 
       //  Calculate the total amount of the products in the cart
-      state.totalAmount = state.productCart.reduce(
+      state.totalAmount = state.productCart?.reduce(
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
       )
+      saveStoreJson(USER_CART, state.productCart);
     },
     removeItem: (state, action) => {
       const id = action.payload;
       // Find the product you want to decrease quantity
-      const existingItem = state.productCart.find((item) => item.id === id);
+      const existingItem = state.productCart?.find((item) => item.id === id);
       state.totalQuantity--;
 
       // Check the quantity of only one product left
@@ -72,7 +77,7 @@ const productReducer = createSlice({
       }
 
       // Calculate the total amount of products in the cart after reducing the number of products
-      state.totalAmount = state.productCart.reduce(
+      state.totalAmount = state.productCart?.reduce(
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
       );
@@ -80,14 +85,14 @@ const productReducer = createSlice({
 
     deleteItem(state, action) {
       const id = action.payload;
-      const existingItem = state.productCart.find((item) => item.id === id);
+      const existingItem = state.productCart?.find((item) => item.id === id);
 
       if (existingItem) {
-        state.productCart = state.productCart.filter((item) => item.id !== id);
+        state.productCart = state.productCart?.filter((item) => item.id !== id);
         state.totalQuantity = state.totalQuantity - existingItem.quantity;
       }
 
-      state.totalAmount = state.productCart.reduce(
+      state.totalAmount = state.productCart?.reduce(
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
       );

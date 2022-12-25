@@ -4,6 +4,11 @@ import { history } from "../index.js";
 export const ACCESS_TOKEN = 'accessToken'
 export const USER_LOGIN = 'userLogin'
 export const TOKEN_CYBERSOFT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udGVuZCA3MyIsIkhldEhhblN0cmluZyI6IjE5LzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NDQ1NDQwMDAwMCIsIm5iZiI6MTY1OTg5MTYwMCwiZXhwIjoxNjg0NjAyMDAwfQ.49m9-EoDr6zr7UOk_79hfcvJWKI_s0Wy_g40ossfl9c'
+export const TOKEN_FACEBOOK = 'facebookToken';
+export const USER_CART = 'userCart';
+export const USER_HISTORY = 'userHistory';
+export const USER_FAVORITE = 'userFavorite';
+
 
 export const { saveStore, saveStoreJson, getStore, getStoreJson, removeStore } = {
     // save data as string
@@ -36,34 +41,6 @@ export const { saveStore, saveStoreJson, getStore, getStoreJson, removeStore } =
     }
 
 }
-
-// Cấu hình cho tất cả request API
-// export const http = axios.create({
-//     baseURL: 'https://shop.cyberlearn.vn',
-//     timeout: 30000
-// });
-
-// http.interceptors.request.use((config) => {
-//     console.log(config)
-//     return config
-
-// }, (err) => {
-//     return Promise.reject(err)
-// })
-
-
-// // Cấu hình cho tất cả respone API
-// http.interceptors.response.use((res) => {
-//     return res;
-// }, (err) => {
-//     if (err.response?.status === 400) {
-//         // Lỗi do tham số mình sẽ xử lý 
-//         alert('Email đã được sử dụng')
-//         history.push('/register');
-//     }
-//     return Promise.reject(err)
-// })
-
 
 export const http = axios.create({
     baseURL: 'https://shop.cyberlearn.vn',

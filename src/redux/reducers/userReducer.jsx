@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { history } from '../../index';
-import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, USER_LOGIN } from '../../util/config';
+import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_FAVORITE, USER_HISTORY, USER_LOGIN } from '../../util/config';
 
 const initialState = {
   userRegister: null,
@@ -9,7 +9,8 @@ const initialState = {
   userLogin: getStoreJson(USER_LOGIN),
   userProfile: null,
   userOrderHistory: [],
-  userFavorite: []
+  userFavorite: [],
+
 }
 
 const userReducer = createSlice({
@@ -28,9 +29,9 @@ const userReducer = createSlice({
     checkOutOrderAction: (state, action) => {
       const newArrOrder = action.payload;
       newArrOrder?.map((newItem, index) => {
-        let isExist = state.userOrderHistory.find(oldItem => oldItem.id === newItem.id);
+        let isExist = state.userOrderHistory?.find(oldItem => oldItem.id === newItem.id);
         if (!isExist) {
-          state.userOrderHistory.push(newItem);
+          state.userProfile.ordersHistory?.push(newItem);
         }
         else {
           isExist.quantity++;
@@ -40,12 +41,12 @@ const userReducer = createSlice({
       state.userOrderHistory = action.payload;
     },
     favoriteProduct: (state, action) => {
-      state.userFavorite.push(action.payload);
+      state.userFavorite?.push(action.payload);
+      saveStore(USER_FAVORITE, state.userFavorite)
     },
     getProfileAction: (state, action) => {
       state.userProfile = action.payload;
-    }
-
+    },
   },
 });
 
@@ -103,6 +104,27 @@ export const loginApi = (userLogin) => {
   }
 }
 
+export const getTokenFacebook = (response) => {
+  console.log(response.accessToken)
+  return async dispatch => {
+    const result = await http.post('/api/Users/facebooklogin', { facebookToken: response.accessToken });
+    console.log('hello')
+    //Cập nhật cho reducer
+    const action = loginAction(result.data.content);
+    dispatch(action);
+    //Lưu localstorage
+    saveStoreJson(USER_LOGIN, result.data.content);
+    saveStore(ACCESS_TOKEN, result.data.content.accessToken);
+    saveStore(TOKEN_FACEBOOK, response.accessToken);
+    console.log(getStore(ACCESS_TOKEN));
+    // Gọi axios lấy dữ liệu api từ token  
+    // Gọi api getprofile
+    const actionGetProfile = getProfileAction();
+    dispatch(actionGetProfile);
+    history.push('/profile');
+  }
+}
+
 export const getProfileApi = () => {
   return async dispatch => {
     const result = await http.post('/api/Users/getProfile')
@@ -126,5 +148,6 @@ export const getFavoriteProduct = (favProd) => {
     dispatch(action);
   }
 }
+
 
 

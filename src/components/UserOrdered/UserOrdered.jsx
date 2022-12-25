@@ -9,7 +9,7 @@ import Helmet from "../../components/Helmet/Helmet";
 import { Tr } from '../../Pages/Cart/Cart';
 
 const UserOrdered = () => {
-  const { userOrderHistory, userFavorite } = useSelector((state) => state.userReducer);
+  const { userOrderHistory, userFavorite, userProfile } = useSelector((state) => state.userReducer);
   const [activeTab, setactiveTab] = useState('1');
   const [pageNumber, setPageNumber] = useState(0);
   const [productData, setProductData] = useState(userOrderHistory);
@@ -19,11 +19,11 @@ const UserOrdered = () => {
   // Get the visited page
   const vistedPage = pageNumber * productPerTab;
   // Show the product each page
-  const displayPage = productData.slice(
+  const displayPage = productData?.slice(
     vistedPage,
     vistedPage + productPerTab
   );
-  const pageCount = Math.ceil(productData.length / productPerTab);
+  const pageCount = Math.ceil(productData?.length / productPerTab);
   // Function to paginate
   const changePage = ({ selected }) => {
     setPageNumber(selected);
@@ -74,9 +74,9 @@ const UserOrdered = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {productData.length !== 0 ? (
+                    {productData?.length !== 0 ? (
                       <>
-                        {displayPage.map((values, index) => {
+                        {displayPage?.map((values, index) => {
                           return (
                             <tr className='text-center'>
                               <td scope="row" style={{ verticalAlign: 'middle' }}>{index + 1}</td>
@@ -92,7 +92,9 @@ const UserOrdered = () => {
                         })}
                       </>
                     ) : (
-                      <h5 className='w-100 text-center'>No product founded!!</h5>
+                      <tr className='w-100 text-center fs-4 fw-bold'>
+                        <td colSpan={6}>No product founded!!</td>
+                      </tr>
                     )}
                   </tbody>
                 </Table>
@@ -115,7 +117,7 @@ const UserOrdered = () => {
                 <Container>
                   <Row>
                     <Col lg="12">
-                      {userFavorite.length === 0 ? (
+                      {userFavorite?.length === 0 ? (
                         <div className="text-center">
                           <h5 className="mt-4">No products added to cart</h5>
                         </div>
@@ -133,7 +135,7 @@ const UserOrdered = () => {
                           <tbody>
                             {
                               <>
-                                {userFavorite.map((item, index) => {
+                                {userFavorite?.map((item, index) => {
                                   return <Tr item={item} key={index} />;
                                 })}
                               </>

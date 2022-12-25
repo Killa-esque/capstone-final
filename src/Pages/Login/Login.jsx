@@ -16,6 +16,11 @@ import { ErrorMessage, Formik } from 'formik';
 import { loginApi } from '../../redux/reducers/userReducer';
 import { loginSchema } from '../../validation/FormValidation';
 import { TextField } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { motion } from "framer-motion";
+import ReactFacebookLogin from 'react-facebook-login';
+import FaceBookLogin from '../../components/LoginFacebook/FaceBookLogin';
+
 
 const Login = () => {
 
@@ -77,9 +82,19 @@ const Login = () => {
                       {errors.password && touched && <p className='text-danger'>{<ErrorMessage name="password">{msg => <div className='text-danger px-2'>{msg}</div>}</ErrorMessage>}</p>}
                     </div>
 
-                    <MDBBtn className="mb-4 px-5 mt-3" color='dark' size='lg'>Login</MDBBtn>
-                    <NavLink className="small text-muted" to='/'>Forgot password?</NavLink>
-                    <NavLink to='/register' style={{ color: '#393f81', display: 'inline' }}>Register here</NavLink>
+                    {/* <MDBBtn className="mb-4 px-5 mt-3" color='dark' size='lg' type='submit'>Login</MDBBtn> */}
+                    <motion.button
+                      whileTap={{ scale: 1.1 }}
+                      className="btn btn-dark mt-2"
+                      type='submit'
+                    >
+                      Login
+                    </motion.button>
+                    <div className='mt-2'>
+                      <FaceBookLogin />
+                    </div>
+
+                    <Link to={'/register'} className='mt-2' style={{ color: '#393f81', display: 'inline' }}>Register here</Link>
                   </MDBCardBody>
                   <div className='text-center'>
                     <p>© All rights reserved.</p>
