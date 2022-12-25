@@ -9,7 +9,7 @@ const initialState = {
   userLogin: getStoreJson(USER_LOGIN),
   userProfile: null,
   userOrderHistory: [],
-  userFavorite: getStoreJson(USER_FAVORITE),
+  userFavorite: [],
 
 }
 

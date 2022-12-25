@@ -21,7 +21,6 @@ const Cart = () => {
     (state) => state.products
   );
   const dispatch = useDispatch();
-  console.log(getStoreJson(USER_CART))
   // xử lý checkout
   const handleCheckout = (e) => {
     try {
@@ -37,13 +36,6 @@ const Cart = () => {
     }
   };
 
-
-  // Render Cart
-  const renderCartItem = () => {
-    productCart?.map((item, index) => {
-      return <Tr item={item} key={index} />;
-    })
-  }
 
   return (
     <Helmet title="Cart">

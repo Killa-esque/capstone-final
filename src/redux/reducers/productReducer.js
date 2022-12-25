@@ -5,7 +5,7 @@ const initialState = {
   productList: [],
   totalQuantity: 0,
   totalAmount: 0,
-  productCart: getStoreJson(USER_CART),
+  productCart: [],
   productDetail: [],
   page: 1
 };
@@ -24,6 +24,7 @@ const productReducer = createSlice({
       state.productDetail = action.payload;
     },
     addItem: (state, action) => {
+      console.log(action.payload)
       const newItem = action.payload;
       // Check if product already exists or not
       const existingItem = state.productCart?.find(
@@ -32,6 +33,7 @@ const productReducer = createSlice({
       state.totalQuantity++;
       // not: add new item to cart
       if (!existingItem) {
+        console.log('!existingItem')
         state.productCart?.push({
           id: newItem.id,
           name: newItem.name,
@@ -40,8 +42,9 @@ const productReducer = createSlice({
           quantity: 1,
           totalPrice: newItem.price,
         });
+        console.log(state.productCart)
       } else {
-
+        console.log('existingItem')
         // Already have: => increasing quantity, at the same time recalculate the total price = existing money + new amount
         existingItem.quantity++;
         existingItem.totalPrice =
