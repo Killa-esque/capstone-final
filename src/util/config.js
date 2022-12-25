@@ -14,7 +14,6 @@ export const { saveStore, saveStoreJson, getStore, getStoreJson, removeStore } =
     // save data as string
     saveStore: (name, stringValue) => {
         localStorage.setItem(name, stringValue)
-
     },
     // save data as object
     saveStoreJson: (name, value) => {
@@ -38,7 +37,7 @@ export const { saveStore, saveStoreJson, getStore, getStoreJson, removeStore } =
         if (localStorage.getItem(name)) {
             localStorage.removeItem(name);
         }
-    }
+    },
 
 }
 

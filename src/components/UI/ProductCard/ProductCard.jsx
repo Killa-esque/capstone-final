@@ -8,7 +8,7 @@ import { history } from '../../../../src/index';
 // css 
 import '../../../assets/css/product-card.css'
 import { addItem } from '../../../redux/reducers/productReducer'
-import { getStoreJson, USER_CART } from '../../../util/config';
+import { getStore, getStoreJson, USER_CART } from '../../../util/config';
 
 
 const ProductCard = ({ product }) => {
@@ -48,14 +48,6 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className='product__item position-relative'>
-      {/* {userFavorite?.map((items, index) => {
-        if (items === product) {
-          return (
-            <i className='fa fa-heart position-absolute fs-5' key={index} style={{ top: '10%', right: '10%', color: 'red' }}></i>
-          )
-        }
-        return <i className='fa fa-heart position-absolute fs-5' key={index} style={{ top: '10%', right: '10%', color: 'rgba(0, 0, 0, 0.1)' }}></i>
-      })} */}
       {handleFave()}
       <div className="product__img">
         <motion.img whileHover={{ scale: 1.2 }}
