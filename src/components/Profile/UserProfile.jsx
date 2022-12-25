@@ -1,5 +1,5 @@
-import { MDBBreadcrumb, MDBBreadcrumbItem, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCol, MDBContainer, MDBRow } from 'mdb-react-ui-kit';
-import React, { useEffect } from 'react'
+import { MDBBreadcrumb, MDBBreadcrumbItem, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCol, MDBContainer, MDBRow, MDBInput } from 'mdb-react-ui-kit';
+import React, { useEffect, useRef } from 'react'
 // Hook
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,6 +24,7 @@ const UserProfile = () => {
     const actionAsync = getProfileApi();
     dispatch(actionAsync);
   }, [])
+
   return (
     <section style={{ backgroundColor: '#eee', padding: '50px 0 0 0' }}>
       <MDBContainer>
@@ -45,8 +46,8 @@ const UserProfile = () => {
                 <MDBCardImage
                   src={arrImage[Math.floor(Math.random() * arrImage.length)]}
                   alt="avatar"
-                  className="rounded-circle"  
-                  style={{ width: '150px', height:'150px' }}
+                  className="rounded-circle"
+                  style={{ width: '150px', height: '150px' }}
                   fluid />
                 <p className="text-muted mb-1 mt-2">Hi, xin chào các bạn mình là {userProfile?.name} </p>
                 <p className="text-muted mb-4">Mình là học viên tại Cybersoft</p>
@@ -61,7 +62,7 @@ const UserProfile = () => {
                     <MDBCardText>Full Name</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userProfile?.name}</MDBCardText>
+                    <MDBInput className="text-muted" value={userProfile?.name}></MDBInput>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -105,7 +106,7 @@ const UserProfile = () => {
           </MDBCol>
         </MDBRow>
       </MDBContainer>
-    </section>
+    </section >
   )
 }
 

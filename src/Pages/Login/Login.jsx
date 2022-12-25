@@ -18,7 +18,6 @@ import { loginSchema } from '../../validation/FormValidation';
 import { TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
-import ReactFacebookLogin from 'react-facebook-login';
 import FaceBookLogin from '../../components/LoginFacebook/FaceBookLogin';
 
 

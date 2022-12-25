@@ -183,5 +183,16 @@ export const getFavoriteProduct = (favProd) => {
   }
 }
 
+export const getNewProfile = (newProfile) => {
+  return async (dispatch) => {
+    try {
+      const result = await http.post('/api/Users/updateProfile', newProfile)
+      console.log(result.data.content)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 
 
