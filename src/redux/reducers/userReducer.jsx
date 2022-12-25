@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { history } from '../../index';
-import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_FAVORITE, USER_HISTORY, USER_LOGIN } from '../../util/config';
+import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_FAVORITE, USER_HISTORY, USER_LOGIN, USER_PROFILE } from '../../util/config';
 
 const initialState = {
   userRegister: null,
   sortByTypes: ['Name', 'Price', 'Quantity'],
   sortBy: 'Name',
   userLogin: getStoreJson(USER_LOGIN),
-  userProfile: null,
+  userProfile: getStoreJson(USER_PROFILE),
   userOrderHistory: [],
   userFavorite: [],
 
@@ -154,12 +154,25 @@ export const getProfileApi = () => {
       const action = getProfileAction(result.data.content);
       console.log('profile', result.data.content)
       dispatch(action);
+      saveStoreJson(USER_PROFILE, result.data.content)
     }
     catch (error) {
       console.log(error)
     }
   }
 }
+
+export const updateProfile = (user) => {
+  return async (dispatch) => {
+    try {
+        const result = await http.post('/api/Users/updateProfile', user)
+        console.log(result)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 
 export const checkOutOrder = (cart) => {
   return async (dispatch) => {
