@@ -8,6 +8,7 @@ export const TOKEN_FACEBOOK = 'facebookToken';
 export const USER_CART = [];
 export const USER_HISTORY = [];
 export const USER_FAVORITE = [];
+export const USER_PROFILE = 'userProfile';
 
 
 export const { saveStore, saveStoreJson, getStore, getStoreJson, removeStore } = {
