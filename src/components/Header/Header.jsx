@@ -1,5 +1,5 @@
 // library
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, memo } from "react";
 import { Container } from "reactstrap";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ import "../../assets/css/header.css";
 
 // redux
 import { toggleUI } from "../../redux/reducers/cardUIReducer";
-import { ACCESS_TOKEN, removeStore, USER_LOGIN } from "../../util/config";
+import { ACCESS_TOKEN, removeStore, USER_CART, USER_FAVORITE, USER_HISTORY, USER_LOGIN } from "../../util/config";
 
 const arrImage = [avatar1, avatar2, avatar3, avatar4, avatar5]
 const Header = () => {
@@ -32,8 +32,6 @@ const Header = () => {
   const handleToggleCart = () => {
     dispatch(toggleUI());
   };
-
-
 
   const nav__links = [
     {
@@ -109,6 +107,9 @@ const Header = () => {
                 </Link> : <span style={{ cursor: 'pointer' }} className="text-white" onClick={() => {
                   removeStore(ACCESS_TOKEN);
                   removeStore(USER_LOGIN);
+                  removeStore(USER_CART);
+                  removeStore(USER_FAVORITE);
+                  removeStore(USER_HISTORY);
                   window.location.reload();
                 }}><Link to={"/home"}><i className="fa fa-sign-out-alt"></i></Link></span>}
                 {userLogin ? <span style={{ fontSize: '1rem' }}>
@@ -126,4 +127,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

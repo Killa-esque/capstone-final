@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { history } from '../../index';
-import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_FAVORITE, USER_HISTORY, USER_LOGIN } from '../../util/config';
+import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_FAVORITE, USER_HISTORY, USER_LOGIN } from '../../util/config';
 
 const initialState = {
   userRegister: null,
@@ -39,10 +39,11 @@ const userReducer = createSlice({
         return null;
       })
       state.userOrderHistory = action.payload;
+      saveStoreJson(USER_CART, state.userOrderHistory)
     },
     favoriteProduct: (state, action) => {
       state.userFavorite?.push(action.payload);
-      saveStore(USER_FAVORITE, state.userFavorite)
+      saveStoreJson(USER_FAVORITE, state.userFavorite)
     },
     getProfileAction: (state, action) => {
       state.userProfile = action.payload;
@@ -57,95 +58,128 @@ export default userReducer.reducer
 
 // async function
 export const registerAPI = (userRegister) => {
-  // Destructuring
-  const userDispatch = { ...userRegister }
-  // Delete confirmPassword
-  delete userDispatch.confirmPassword
   return async (dispatch) => {
-    if (userDispatch.gender === "1") {
-      userDispatch.gender = true
+    try {
+      // Destructuring
+      const userDispatch = { ...userRegister }
+      // Delete confirmPassword
+      delete userDispatch.confirmPassword
+      if (userDispatch.gender === "1") {
+        userDispatch.gender = true
+      }
+      else if (userDispatch.gender === "2") {
+        userDispatch.gender = false
+      }
+      // Update reducer
+      const result = await http.post('/api/Users/signup', userDispatch)
+      alert('Đăng ký thành công')
+      const action = registerAction(result.data.content)
+      dispatch(action)
+      // go to login
+      history.push('/login')
     }
-    else if (userDispatch.gender === "2") {
-      userDispatch.gender = false
+    catch (error) {
+      console.log(error)
     }
-    // Update reducer
-    const result = await http.post('/api/Users/signup', userDispatch)
-    alert('Đăng ký thành công')
-    const action = registerAction(result.data.content)
-    dispatch(action)
-    // go to login
-    history.push('/login')
   }
 }
 export const getSortBy = (types) => {
   console.log(types)
   return async (dispatch) => {
-    const action = sortByChooseAction(types);
-    dispatch(action)
+    try {
+      const action = sortByChooseAction(types);
+      dispatch(action)
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 
 export const loginApi = (userLogin) => {
   console.log('userLogin', userLogin)
   return async dispatch => {
-    const result = await http.post('/api/Users/signin', userLogin);
-    //Cập nhật cho reducer
-    const action = loginAction(result.data.content);
-    dispatch(action);
-    //Lưu localstorage
-    saveStoreJson(USER_LOGIN, result.data.content);
-    saveStore(ACCESS_TOKEN, result.data.content.accessToken);
-    console.log(getStore(ACCESS_TOKEN));
-    // Gọi axios lấy dữ liệu api từ token  
-    // Gọi api getprofile
-    const actionGetProfile = getProfileAction();
-    dispatch(actionGetProfile);
-    history.push('/profile');
+    try {
+      const result = await http.post('/api/Users/signin', userLogin);
+      //Cập nhật cho reducer
+      const action = loginAction(result.data.content);
+      dispatch(action);
+      //Lưu localstorage
+      saveStoreJson(USER_LOGIN, result.data.content);
+      saveStore(ACCESS_TOKEN, result.data.content.accessToken);
+      console.log(getStore(ACCESS_TOKEN));
+      // Gọi axios lấy dữ liệu api từ token  
+      // Gọi api getprofile
+      const actionGetProfile = getProfileAction();
+      dispatch(actionGetProfile);
+      history.push('/profile');
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 
 export const getTokenFacebook = (response) => {
   console.log(response.accessToken)
   return async dispatch => {
-    const result = await http.post('/api/Users/facebooklogin', { facebookToken: response.accessToken });
-    console.log('hello')
-    //Cập nhật cho reducer
-    const action = loginAction(result.data.content);
-    dispatch(action);
-    //Lưu localstorage
-    saveStoreJson(USER_LOGIN, result.data.content);
-    saveStore(ACCESS_TOKEN, result.data.content.accessToken);
-    saveStore(TOKEN_FACEBOOK, response.accessToken);
-    console.log(getStore(ACCESS_TOKEN));
-    // Gọi axios lấy dữ liệu api từ token  
-    // Gọi api getprofile
-    const actionGetProfile = getProfileAction();
-    dispatch(actionGetProfile);
-    history.push('/profile');
+    try {
+      const result = await http.post('/api/Users/facebooklogin', { facebookToken: response.accessToken });
+      console.log('hello')
+      //Cập nhật cho reducer
+      const action = loginAction(result.data.content);
+      dispatch(action);
+      //Lưu localstorage
+      saveStoreJson(USER_LOGIN, result.data.content);
+      saveStore(ACCESS_TOKEN, result.data.content.accessToken);
+      saveStore(TOKEN_FACEBOOK, response.accessToken);
+      console.log(getStore(ACCESS_TOKEN));
+      // Gọi axios lấy dữ liệu api từ token  
+      // Gọi api getprofile
+      const actionGetProfile = getProfileAction();
+      dispatch(actionGetProfile);
+      history.push('/profile');
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 
 export const getProfileApi = () => {
   return async dispatch => {
-    const result = await http.post('/api/Users/getProfile')
-    //Sau khi lấy dữ liệu từ api về đưa lên reducer qua action creator 
-    const action = getProfileAction(result.data.content);
-    console.log('profile', result.data.content)
-    dispatch(action);
+    try {
+      const result = await http.post('/api/Users/getProfile')
+      //Sau khi lấy dữ liệu từ api về đưa lên reducer qua action creator 
+      const action = getProfileAction(result.data.content);
+      console.log('profile', result.data.content)
+      dispatch(action);
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 }
 
 export const checkOutOrder = (cart) => {
   return async (dispatch) => {
-    const action = checkOutOrderAction(cart);
-    dispatch(action);
+    try {
+      const action = checkOutOrderAction(cart);
+      dispatch(action);
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
 export const getFavoriteProduct = (favProd) => {
   return async (dispatch) => {
-    const action = favoriteProduct(favProd);
-    dispatch(action);
+    try {
+      const action = favoriteProduct(favProd);
+      dispatch(action);
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
