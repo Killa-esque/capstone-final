@@ -17,7 +17,7 @@ import "../../assets/css/header.css";
 
 // redux
 import { toggleUI } from "../../redux/reducers/cardUIReducer";
-import { ACCESS_TOKEN, removeStore, USER_CART, USER_FAVORITE, USER_HISTORY, USER_LOGIN } from "../../util/config";
+import { ACCESS_TOKEN, removeStore, saveStore, saveStoreJson, USER_CART, USER_FAVORITE, USER_HISTORY, USER_LOGIN } from "../../util/config";
 
 const arrImage = [avatar1, avatar2, avatar3, avatar4, avatar5]
 const Header = () => {
@@ -46,7 +46,6 @@ const Header = () => {
       display: "Cart",
       path: "/cart",
     },
-
   ];
 
   useEffect(() => {
@@ -64,13 +63,19 @@ const Header = () => {
     return () => window.removeEventListener("scroll");
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('totalQuantity', totalQuantity)
+  }, [totalQuantity])
+
   return (
     <>
       <header className="header" ref={headerRef}>
         <Container>
           <div className="nav__wrapper d-flex align-items-center justify-content-between">
             <div className="logo">
-              <img src={logo} alt="logo" />
+              <Link to={'/'}>
+                <img src={logo} alt="logo" />
+              </Link>
               <h5>Shoes Store</h5>
             </div>
 
@@ -81,17 +86,32 @@ const Header = () => {
               onClick={handleToggleMenu}
             >
               <div className="menu d-flex align-items-center gap-5">
-                {nav__links.map((link, index) => (
-                  <NavLink
-                    key={index}
-                    to={link.path}
-                    className={(navClass) =>
-                      navClass.isActive ? "active__menu" : ""
-                    }
-                  >
-                    {link.display}
-                  </NavLink>
-                ))}
+                {nav__links.map((link, index) => {
+                  if (link.path === '/cart' && userLogin === null) {
+                    return (
+                      <NavLink
+                        key={index}
+                        to={'/login'}
+                        className={(navClass) =>
+                          navClass.isActive ? "active__menu" : ""
+                        }
+                      >
+                        {link.display}
+                      </NavLink>
+                    )
+                  }
+                  return (
+                    <NavLink
+                      key={index}
+                      to={link.path}
+                      className={(navClass) =>
+                        navClass.isActive ? "active__menu" : ""
+                      }
+                    >
+                      {link.display}
+                    </NavLink>
+                  )
+                })}
               </div>
             </div>
 
@@ -105,15 +125,11 @@ const Header = () => {
                 {userLogin === null ? <Link to={"/login"}>
                   <i className="ri-user-line"></i>
                 </Link> : <span style={{ cursor: 'pointer' }} className="text-white" onClick={() => {
-                  removeStore(ACCESS_TOKEN);
-                  removeStore(USER_LOGIN);
-                  removeStore(USER_CART);
-                  removeStore(USER_FAVORITE);
-                  removeStore(USER_HISTORY);
+                  localStorage.clear();
                   window.location.reload();
                 }}><Link to={"/home"}><i className="fa fa-sign-out-alt"></i></Link></span>}
                 {userLogin ? <span style={{ fontSize: '1rem' }}>
-                  <Link to='/profile' className="text-black">Hi ! {userProfile?.name}</Link>
+                  <Link to='/profile' className="text-black"><h5 className="fs-6">{userProfile?.name}</h5></Link>
                 </span> : ''}
               </span>
               <span className="mobile__menu" onClick={handleToggleMenu}>

@@ -8,17 +8,35 @@ import '../../assets/css/profile.css'
 // components
 import CommonSection from "../../components/UI/Common Section/CommonSection";
 import Helmet from "../../components/Helmet/Helmet";
-import { USER_PROFILE, getStoreJson } from '../../util/config';
+import { USER_PROFILE, getStoreJson, USER_LOGIN } from '../../util/config';
 import { getProfileApi } from "../../redux/reducers/userReducer";
+import { deleteItem } from '../../redux/reducers/productReducer';
 const UserOrdered = () => {
   const disatch = useDispatch();
 
   const { userOrderHistory, userFavorite, userProfile } = useSelector((state) => state.userReducer);
-
   const getProfile = getStoreJson(USER_PROFILE);
   const [profile, setProfile] = useState(getProfile);
-
   const [activeTab, setactiveTab] = useState('1');
+  const [pageNumber, setPageNumber] = useState(0);
+  const [productData, setProductData] = useState(profile);
+  const dispatch = useDispatch();
+
+
+  // Number of product for each page
+  const productPerTab = 3;
+  // Get the visited page
+  const vistedPage = pageNumber * productPerTab;
+  // Show the product each page
+  const displayPage = productData?.ordersHistory.slice(
+    vistedPage,
+    vistedPage + productPerTab
+  );
+  const pageCount = Math.ceil(productData?.ordersHistory?.length / productPerTab);
+  // Function to paginate
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
 
   useEffect(() => {
     disatch(getProfileApi())
@@ -61,36 +79,49 @@ const UserOrdered = () => {
                 <Table>
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>Image</th>
                       <th>Name</th>
-                      <th>Price</th>
                       <th>Quantity</th>
-                      <th>Total</th>
+                      <th>Price</th>
                     </tr>
                   </thead>
                   <tbody>
-                  {profile?.ordersHistory
-                          ?.slice(-3)
-                          .map((order, index) => {
-                            return (
-                              <Fragment key={index}>
-                                <tr>
-                                  <td colSpan={12} className="order__date">
-                                    <span>Order date:</span>{" "}
-                                    {moment(order.date).format(
-                                      "MMMM Do YYYY, h:mm:ss a"
-                                    )}
-                                  </td>
-                                </tr>
-                                <Tr item={order} />
-                              </Fragment>
-                            );
-                          })}
+                    {productData?.ordersHistory?.length !== 0 ? (
+                      <>
+                        {displayPage?.map((order, index) => {
+                          return (
+                            <Fragment key={index}>
+                              <tr>
+                                <td colSpan={12} className="order__date">
+                                  <span>Order date:</span>{" "}
+                                  {moment(order.date).format(
+                                    "MMMM Do YYYY, h:mm:ss a"
+                                  )}
+                                </td>
+                              </tr>
+                              <Tr item={order} />
+                            </Fragment>
+                          );
+                        })}
+                      </>
+                    ) : (
+                      <tr className='w-100 text-center fs-4 fw-bold'>
+                        <td colSpan={6}>No product founded!!</td>
+                      </tr>
+                    )}
                   </tbody>
                 </Table>
               </Col>
-        
+              <div>
+                <ReactPaginate
+                  pageCount={pageCount}
+                  onPageChange={changePage}
+                  previousLabel="Prev"
+                  nextLabel="Next"
+                  containerClassName="paginationBtns"
+                />
+              </div>
+
             </Row>
           </TabPane>
           <TabPane tabId="2">
@@ -118,8 +149,24 @@ const UserOrdered = () => {
                           <tbody>
                             {
                               <>
-                                {userFavorite?.map((item, index) => {
-                                  return <Tr item={item} key={index} />;
+                                {userFavorite?.productsFavorite?.map((item, index) => {
+                                  // return <Tr item={item} key={index} />;
+                                  return (
+                                    <tr className="text-center">
+                                      <td className="cart__img-box">
+                                        <img src={item.image} alt="" />
+                                      </td>
+                                      <td style={{ verticalAlign: 'middle' }}>{item.name}</td>
+                                      <td style={{ verticalAlign: 'middle' }}>${item.price}</td>
+                                      <td className="cart__item-del" style={{ verticalAlign: 'middle' }}>
+                                        <span onClick={() => {
+                                          dispatch(deleteItem(item.id));
+                                        }}>
+                                          <i className="ri-delete-bin-line"></i>
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  )
                                 })}
                               </>
                             }

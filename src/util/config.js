@@ -1,5 +1,6 @@
 import axios from "axios";
 import { isExpired } from "react-jwt";
+import { toast } from "react-toastify";
 import { history } from "../index.js";
 export const ACCESS_TOKEN = 'accessToken'
 export const USER_LOGIN = 'userLogin'
@@ -51,7 +52,8 @@ http.interceptors.request.use((config) => {
     config.headers = {
         ...config.headers,
         Authorization: `Bearer ${getStore(ACCESS_TOKEN)}`,
-        TokenCybersoft: TOKEN_CYBERSOFT
+        TokenCybersoft: TOKEN_CYBERSOFT,
+        ContentType: 'text/json'
     };
     return config;
 }, (err) => {
@@ -64,14 +66,14 @@ http.interceptors.response.use((res) => {
     //Bắt lỗi 400 hoặc 404
     if (err.response?.status === 400 || err.response?.status === 404) {
         //Lỗi do tham số => backend trả về 400 hoặc 404 mình sẽ xử lý
-        alert('tham số không hợp lệ !');
+        toast.error("Sai tài khoản || Sai mật khẩu", "ERROR");
         //chuyển hướng về home
-        history.push('/');
+        history.push('/login');
     }
     if (err.response?.status === 401 || err.response?.status === 403) {
         const isMyTokenExpired = isExpired(getStore(ACCESS_TOKEN));
         if (isMyTokenExpired) {
-            alert('Hết phiên đăng nhập yêu cầu đăng nhập lại !');
+            toast.error("Hết phiên đăng nhập yêu cầu đăng nhập lại !", 'ERROR');
             removeStore(ACCESS_TOKEN);
             removeStore(USER_LOGIN);
             window.location.href = '/login';

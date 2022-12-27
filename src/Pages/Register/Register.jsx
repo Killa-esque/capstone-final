@@ -92,67 +92,6 @@ const Register = () => {
         </Form>
       )}
     </Formik>
-
-    // <form className='container form-control my-5' style={{ maxWidth: '800px', borderRadius: '20px' }} onSubmit={form.handleSubmit}>
-    //   <div className='text-center'>
-    //     <img className='my-2' src={logo} alt="..." />
-    //     <h2 className="text-uppercase text-center mb-5" style={{ color: '#df2020' }}>Create an account</h2>
-    //   </div>
-
-    // {/* <!-- Username input --> */}
-    // <div className="form-outline mb-4">
-    //   <label className="form-label" htmlFor="registerUsername" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Username</label>
-    //   <input name='name' onChange={form.handleChange} onBlur={form.handleBlur} type="text" id="registerUsername" className="form-control" placeholder='Enter your name' />
-    //   {form.errors.name && form.touched.name && <p className='text-danger'>{form.errors.name}</p>}
-    // </div>
-
-    //   {/* <!-- Email input --> */}
-    //   <div className="form-outline mb-4">
-    //     <label className="form-label" htmlFor="registerEmail" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Email</label>
-    //     <input name='email' onChange={form.handleChange} onBlur={form.handleBlur} type="email" id="registerEmail" className="form-control" placeholder='Enter your email' />
-    //     {form.errors.email && form.touched.email && <p className='text-danger'>{form.errors.email}</p>}
-    //   </div>
-
-    //   {/* <!-- Password input --> */}
-    //   <div className="form-outline mb-4">
-    //     <label className="form-label" htmlFor="registerPassword" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Password</label>
-    //     <input name='password' onChange={form.handleChange} onBlur={form.handleBlur} type="password" id="registerPassword" className="form-control" placeholder='Enter your password' />
-    //     {form.errors.password && form.touched.password && <p className='text-danger'>{form.errors.password}</p>}
-    //   </div>
-
-    //   {/* <!-- Repeat Password input --> */}
-    //   <div className="form-outline mb-4">
-    //     <label className="form-label" htmlFor="registerRepeatPassword" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Repeat password</label>
-    //     <input name='confirmPassword' onChange={form.handleChange} onBlur={form.handleBlur} type="password" id="registerRepeatPassword" className="form-control" placeholder='Confirm password' />
-    //     {form.errors.confirmPassword && form.touched.confirmPassword && <p className='text-danger'>{form.errors.confirmPassword}</p>}
-    //   </div>
-
-    //   {/* <!-- Phone Number input --> */}
-    //   <div className="form-outline mb-4">
-    //     <label className="form-label" htmlFor="registerPhoneNumber" style={{ color: '#212245', fontWeight: 'bold', fontSize: '18px' }}>Phone Number</label>
-    //     <input name='phoneNumber' onChange={form.handleChange} onBlur={form.handleBlur} type="text" id="registerPhoneNumber" className="form-control" placeholder='Phone number' />
-    //     {form.errors.phoneNumber && form.touched.phoneNumber && <p className='text-danger'>{form.errors.phoneNumber}</p>}
-    //   </div>
-
-    //   {/* <div role="group" aria-labelledby="checkbox-group">
-    //     <label>
-    //       <Field type="checkbox" name="checked" value="One" />
-    //       One
-    //     </label>
-    //     <label>
-    //       <Field type="checkbox" name="checked" value="Two" />
-    //       Two
-    //     </label>
-    //     <label>
-    //       <Field type="checkbox" name="checked" value="Three" />
-    //       Three
-    //     </label>
-    //   </div> */}
-
-    //   {/* <!-- Submit button --> */}
-    //   <button type="submit" className="btn mb-4 w-100">Register</button>
-    // </form>
-
   )
 }
 

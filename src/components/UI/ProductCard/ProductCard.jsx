@@ -8,18 +8,15 @@ import { history } from '../../../../src/index';
 // css 
 import '../../../assets/css/product-card.css'
 import { addItem } from '../../../redux/reducers/productReducer'
-import { getStore, getStoreJson, USER_CART } from '../../../util/config';
+import { getLikeProduct, getUnLikeProduct } from '../../../redux/reducers/userReducer';
 
-
-const ProductCard = ({ product }) => {
-  const { userLogin, userFavorite } = useSelector(state => state.userReducer)
+const ProductCard = ({ product, setFave, removeFave, idProd, userFavorite }) => {
+  const { userLogin } = useSelector(state => state.userReducer)
   const dispatch = useDispatch()
   const { image, price, name, id } = product
-
   // Add product to cart
   const handleAddToCart = () => {
     if (userLogin) {
-      console.log(getStoreJson(USER_CART))
       dispatch(addItem({
         id,
         name,
@@ -31,14 +28,46 @@ const ProductCard = ({ product }) => {
     }
   }
 
+
+
+  // const setFave = (id) => {
+  //   console.log(id)
+  //   dispatch(getLikeProduct(id))
+  // }
+  // const removeFave = (id) => {
+  //   dispatch(getUnLikeProduct(id))
+
+  // }
+
   const handleFave = () => {
-    const existingItem = userFavorite?.find(
-      (item) => item.id === id
+    console.log('item.id')
+    const existingItem = userFavorite?.productsFavorite?.find(
+      (item) => {
+        return item.id === id
+      }
     );
+    console.log(existingItem)
     if (existingItem) {
-      return <i className='fa fa-heart position-absolute fs-5' style={{ top: '10%', right: '10%', color: 'red' }}></i>
+      return (
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          className="position-absolute btn-like"
+          onClick={removeFave(idProd)}
+        >
+          <i className='fa fa-heart fs-5' style={{ color: 'red' }}></i>
+        </motion.button>
+      )
     }
-    return <i className='fa fa-heart position-absolute fs-5' style={{ top: '10%', right: '10%', color: 'rgba(0, 0, 0, 0.1)' }}></i>
+    return (
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        className="position-absolute btn-unlike"
+        onClick={setFave(idProd)}
+      >
+        <i className='fa fa-heart fs-5' style={{ color: 'rgba(0, 0, 0, 0.1)' }}></i>
+      </motion.button>
+    )
+
   }
 
   useEffect(() => {

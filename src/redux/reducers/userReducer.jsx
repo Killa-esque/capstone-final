@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify';
 import { history } from '../../index';
 import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_FAVORITE, USER_HISTORY, USER_LOGIN, USER_PROFILE } from '../../util/config';
 
@@ -42,8 +43,8 @@ const userReducer = createSlice({
       saveStoreJson(USER_CART, state.userOrderHistory)
     },
     favoriteProduct: (state, action) => {
-      state.userFavorite?.push(action.payload);
-      saveStoreJson(USER_FAVORITE, state.userFavorite)
+      state.userFavorite = action.payload;
+      // saveStoreJson(USER_FAVORITE, state.userFavorite)
     },
     getProfileAction: (state, action) => {
       state.userProfile = action.payload;
@@ -112,6 +113,8 @@ export const loginApi = (userLogin) => {
       // Gọi api getprofile
       const actionGetProfile = getProfileAction();
       dispatch(actionGetProfile);
+      toast.success("Đăng nhập thành công");
+      // window.location.reload()
       history.push('/profile');
     }
     catch (error) {
@@ -165,8 +168,8 @@ export const getProfileApi = () => {
 export const updateProfile = (user) => {
   return async (dispatch) => {
     try {
-        const result = await http.post('/api/Users/updateProfile', user)
-        console.log(result)
+      const result = await http.post('/api/Users/updateProfile', user)
+      console.log(result)
     } catch (error) {
       console.log(error)
     }
@@ -177,24 +180,15 @@ export const updateProfile = (user) => {
 export const checkOutOrder = (cart) => {
   return async (dispatch) => {
     try {
-      const action = checkOutOrderAction(cart);
-      dispatch(action);
+      console.log(cart)
+      const result = await http.post('/api/Users/order', cart)
+      console.log(result.data.content)
     } catch (error) {
       console.log(error)
     }
   }
 }
 
-export const getFavoriteProduct = (favProd) => {
-  return async (dispatch) => {
-    try {
-      const action = favoriteProduct(favProd);
-      dispatch(action);
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
 
 export const getNewProfile = (newProfile) => {
   return async (dispatch) => {
@@ -207,5 +201,41 @@ export const getNewProfile = (newProfile) => {
   }
 }
 
+export const getFavoriteProduct = (userToken) => {
+  return async (dispatch) => {
+    try {
+      const result = await http.get('/api/Users/getproductfavorite', userToken)
+      console.log(result.data.content);
+      const action = favoriteProduct(result.data.content);
+      dispatch(action);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const getLikeProduct = (id) => {
+  console.log(id)
+  return async (dispatch) => {
+    try {
+      const result = await http.get(`/api/Users/like?productId=${id}`)
+      toast.success(result.data.content)
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+}
+export const getUnLikeProduct = (id) => {
+  return async (dispatch) => {
+    try {
+      const result = await http.get(`/api/Users/unlike?productId=${id}`)
+      toast.success(result.data.content)
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+}
 
 
