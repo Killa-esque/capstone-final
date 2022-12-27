@@ -48,6 +48,7 @@ const userReducer = createSlice({
     },
     getProfileAction: (state, action) => {
       state.userProfile = action.payload;
+      saveStoreJson(USER_PROFILE, action.payload)
     },
   },
 });
