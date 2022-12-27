@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify';
 import { history } from '../../index';
-import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_FAVORITE, USER_HISTORY, USER_LOGIN, USER_PROFILE } from '../../util/config';
+import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_LOGIN, USER_PROFILE } from '../../util/config';
 
 const initialState = {
   userRegister: null,
@@ -44,7 +44,6 @@ const userReducer = createSlice({
     },
     favoriteProduct: (state, action) => {
       state.userFavorite = action.payload;
-      // saveStoreJson(USER_FAVORITE, state.userFavorite)
     },
     getProfileAction: (state, action) => {
       state.userProfile = action.payload;
@@ -114,8 +113,8 @@ export const loginApi = (userLogin) => {
       const actionGetProfile = getProfileAction();
       dispatch(actionGetProfile);
       toast.success("Đăng nhập thành công");
-      // window.location.reload()
       history.push('/profile');
+      // window.location.reload()
     }
     catch (error) {
       console.log(error)

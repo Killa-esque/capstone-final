@@ -7,8 +7,9 @@ import { history } from '../../../../src/index';
 
 // css 
 import '../../../assets/css/product-card.css'
+
+// Reducer
 import { addItem } from '../../../redux/reducers/productReducer'
-import { getLikeProduct, getUnLikeProduct } from '../../../redux/reducers/userReducer';
 
 const ProductCard = ({ product, setFave, removeFave, idProd, userFavorite }) => {
   const { userLogin } = useSelector(state => state.userReducer)
@@ -27,17 +28,6 @@ const ProductCard = ({ product, setFave, removeFave, idProd, userFavorite }) => 
       history.push('/login')
     }
   }
-
-
-
-  // const setFave = (id) => {
-  //   console.log(id)
-  //   dispatch(getLikeProduct(id))
-  // }
-  // const removeFave = (id) => {
-  //   dispatch(getUnLikeProduct(id))
-
-  // }
 
   const handleFave = () => {
     console.log('item.id')

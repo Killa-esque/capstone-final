@@ -14,7 +14,6 @@ import "../../assets/css/cart-page.css";
 //redux
 import { removeItem, deleteItem, increaseItem } from "../../redux/reducers/productReducer";
 import { checkOutOrder } from "../../redux/reducers/userReducer";
-import { saveStoreJson, USER_CART } from "../../util/config";
 
 const Cart = () => {
   const { totalAmount, productCart } = useSelector(

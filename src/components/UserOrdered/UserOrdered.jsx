@@ -2,15 +2,28 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Table, Container } from 'reactstrap';
 import classnames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
+
+// pagination
 import ReactPaginate from 'react-paginate';
+
+// date/time
 import moment from 'moment';
+
+// css
 import '../../assets/css/profile.css'
+
 // components
 import CommonSection from "../../components/UI/Common Section/CommonSection";
 import Helmet from "../../components/Helmet/Helmet";
-import { USER_PROFILE, getStoreJson, USER_LOGIN } from '../../util/config';
+
+// config
+import { USER_PROFILE, getStoreJson } from '../../util/config';
+
+// Reducer
 import { getProfileApi } from "../../redux/reducers/userReducer";
 import { deleteItem } from '../../redux/reducers/productReducer';
+
+
 const UserOrdered = () => {
   const disatch = useDispatch();
 
@@ -150,7 +163,6 @@ const UserOrdered = () => {
                             {
                               <>
                                 {userFavorite?.productsFavorite?.map((item, index) => {
-                                  // return <Tr item={item} key={index} />;
                                   return (
                                     <tr className="text-center">
                                       <td className="cart__img-box">

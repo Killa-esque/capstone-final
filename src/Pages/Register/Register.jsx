@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 // Form validation
-import { Field, Form, Formik, useFormik } from 'formik'
-import * as yup from 'yup'
+import { Form, Formik } from 'formik'
 // css
 import "../../assets/css/register-bg.css";
 import "../../assets/css/button-submit.css"

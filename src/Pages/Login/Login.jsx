@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  MDBBtn,
   MDBContainer,
   MDBCard,
   MDBCardBody,
@@ -10,7 +9,7 @@ import {
 } from 'mdb-react-ui-kit';
 import logo from "../../assets/images/logo.png";
 import shoesRegister from "../../assets/images/shoes-register.jpg";
-import { Form, NavLink } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { ErrorMessage, Formik } from 'formik';
 import { loginApi } from '../../redux/reducers/userReducer';

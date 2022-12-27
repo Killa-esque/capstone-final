@@ -7,8 +7,6 @@ export const USER_LOGIN = 'userLogin'
 export const TOKEN_CYBERSOFT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udGVuZCA3MyIsIkhldEhhblN0cmluZyI6IjE5LzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NDQ1NDQwMDAwMCIsIm5iZiI6MTY1OTg5MTYwMCwiZXhwIjoxNjg0NjAyMDAwfQ.49m9-EoDr6zr7UOk_79hfcvJWKI_s0Wy_g40ossfl9c'
 export const TOKEN_FACEBOOK = 'facebookToken';
 export const USER_CART = [];
-export const USER_HISTORY = [];
-export const USER_FAVORITE = [];
 export const USER_PROFILE = 'userProfile';
 
 
