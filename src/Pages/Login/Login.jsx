@@ -13,7 +13,7 @@ import shoesRegister from "../../assets/images/shoes-register.jpg";
 import { Form, NavLink } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { ErrorMessage, Formik } from 'formik';
-import { loginApi } from '../../redux/reducers/userReducer';
+import { getProfileApi, loginApi } from '../../redux/reducers/userReducer';
 import { loginSchema } from '../../validation/FormValidation';
 import { TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -31,9 +31,10 @@ const Login = () => {
         password: "",
       }}
       validationSchema={loginSchema}
-      onSubmit={(values, actions) => {
+      onSubmit={async (values, actions) => {
         const actionAsync = loginApi(values);
-        dispatch(actionAsync)
+        await dispatch(actionAsync)
+        await dispatch(getProfileApi())
       }}
     >
       {({ errors, touched, values, handleBlur, handleChange, handleSubmit }) => (
