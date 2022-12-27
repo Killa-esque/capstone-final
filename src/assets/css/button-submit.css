@@ -12,6 +12,22 @@
   display: block;
 }
 
+.btn-unlike {
+  top: 10%;
+  right: 10%;
+  color: rgba(0, 0, 0, 0.1);
+  border: none !important;
+  background: transparent !important
+}
+
+.btn-like {
+  top: 10%;
+  right: 10%;
+  color: red;
+  border: none !important;
+  background: transparent !important
+}
+
 .btn-grad:hover {
   background-position: right center;
   /* change the direction of the change here */

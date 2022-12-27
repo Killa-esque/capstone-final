@@ -12,30 +12,55 @@ import ProductCard from "../../components/UI/ProductCard/ProductCard";
 import "../../assets/css/hero-section.css";
 import "../../assets/css/home.css";
 // store redux
+import { history } from '../../index';
 import {
   getAllProductsApi,
   getAllProductsByCategoryApi,
 } from "../../redux/reducers/productReducer";
+import { getStoreJson, USER_LOGIN } from "../../util/config";
+import { getFavoriteProduct, getLikeProduct, getUnLikeProduct } from "../../redux/reducers/userReducer";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { productList } = useSelector((state) => state.products);
-
+  const { userFavorite } = useSelector((state) => state.userReducer);
   //  Handling product rendering by category
   const handleGetProductByCategory = (id) => {
     const action = getAllProductsByCategoryApi(id);
     dispatch(action);
   };
 
+  const setFave = (id) => {
+    return () => {
+      dispatch(getLikeProduct(id))
+    }
+  }
+  const removeFave = (id) => {
+    return () => {
+      dispatch(getUnLikeProduct(id))
+    }
+
+  }
   // Get all product list from API
   const handleGetProducts = () => {
     const action = getAllProductsApi();
     dispatch(action);
   };
 
+  // Get favorite product
+  const handleGetFavoriteProduct = () => {
+    if (getStoreJson(USER_LOGIN)) {
+      dispatch(getFavoriteProduct())
+    }
+    else {
+      history.push('/login');
+    }
+  }
+
   useEffect(() => {
+    handleGetFavoriteProduct();
     handleGetProducts();
-  }, []);
+  }, [userFavorite]);
 
   return (
     <Helmet title="Home">
@@ -189,7 +214,7 @@ const Home = () => {
             {productList.map((product, index) => {
               return (
                 <Col key={index} lg="3" md="4" sm='6' xs='6' className="mt-5">
-                  <ProductCard product={product} />
+                  <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} />
                 </Col>
               );
             })}{" "}

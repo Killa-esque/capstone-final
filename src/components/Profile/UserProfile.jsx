@@ -152,7 +152,7 @@ const UserProfile = () => {
                         <p className="text-danger">{formik.errors.email}</p>
                       )}
                     </MDBCol>
-                    
+
                   </MDBRow>
                   <hr />
                   <MDBRow style={{ display: 'flex', alignItems: 'center' }}>
@@ -170,8 +170,8 @@ const UserProfile = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
-                         {formik.errors.name ?? (
-                        <p className="text-danger">{formik.errors.name}</p>
+                      {formik.errors.name ?? (
+                        <p className="text-warning">{formik.errors.name}</p>
                       )}
                     </MDBCol>
                   </MDBRow>
@@ -191,7 +191,7 @@ const UserProfile = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
-                         {formik.errors.phone ?? (
+                      {formik.errors.phone ?? (
                         <p className="text-danger">{formik.errors.phone}</p>
                       )}
                     </MDBCol>
@@ -212,7 +212,7 @@ const UserProfile = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />{" "}
-                         {formik.errors.password ?? (
+                      {formik.errors.password ?? (
                         <p className="text-danger">{formik.errors.password}</p>
                       )}
                     </MDBCol>
@@ -261,18 +261,15 @@ const UserProfile = () => {
                     </MDBCol>
                   </MDBRow>
                   <hr />
-
                   <MDBRow>
                     <MDBCol sm="12" style={{ display: 'flex', alignItems: 'center' }}>
-                      <motion.button whileTap={{ scale: 1.2 }} type="submit" className="addToCart__btn">
+                      <motion.button whileTap={{ scale: 1.2 }} type="submit" className="addToCart__btn fs-5 fw-bold">
                         Update
                       </motion.button>
                     </MDBCol>
                   </MDBRow>
                 </form>
-
               </MDBCardBody>
-
             </MDBCard>
           </MDBCol>
         </MDBRow>

@@ -8,16 +8,14 @@ import { Container, Row, Col } from "reactstrap";
 import { motion } from "framer-motion";
 import "../../assets/css/product-detail.css";
 import ProductCard from "../../components/UI/ProductCard/ProductCard";
-import { getFavoriteProduct } from "../../redux/reducers/userReducer";
+import { getUnLikeProduct, getLikeProduct, getFavoriteProduct } from "../../redux/reducers/userReducer";
 const Detail = () => {
   const { id } = useParams();
   const { productDetail } = useSelector((state) => state.products);
   const { name, image, price, quantity, description, shortDescription } = productDetail;
-
   const dispatch = useDispatch();
   const [tab, setTab] = useState("desc");
   const [previewImage, setPreviewImage] = useState(image);
-
   const getProductByIdApi = () => {
     dispatch(getProductById(id));
   };
@@ -33,15 +31,13 @@ const Detail = () => {
     );
   };
   const handleAddFavorite = () => {
-    const action = getFavoriteProduct({
-      id,
-      name,
-      price,
-      quantity,
-      image,
-    })
+    const action = getFavoriteProduct();
     dispatch(action);
   };
+  // const handleRemoveFavorite = (id) => {
+  //   const action = getUnLikeProduct(id)
+  //   dispatch(action);
+  // };
 
   useEffect(() => {
     getProductByIdApi();
@@ -129,6 +125,14 @@ const Detail = () => {
                   >
                     Add to your favorite
                   </motion.button>
+
+                  {/* <motion.button
+                    whileTap={{ scale: 1.2 }}
+                    className="addToCart__btn mx-2"
+                    onClick={handleRemoveFavorite(id)}
+                  >
+                  Remove from your favorite
+                </motion.button> */}
                 </div>
               </Col>
 
@@ -154,8 +158,8 @@ const Detail = () => {
                   ) : (
                     <div className="tab__form">
                       <div className="review">
-                        <p className="user__name">Minh Thu</p>
-                        <p className="user__email">minhthu3012000@gmail.com</p>
+                        <p className="user__name">Cybersoft</p>
+                        <p className="user__email">Cybersoft@gmail.com</p>
                         <p className="feedback__text">Great product!!</p>
                       </div>
                       <form

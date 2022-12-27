@@ -49,7 +49,6 @@ const CartProfile = () => {
                       })}
                     </div>
                   </div>
-
                 </p>
               </div>
             </div>
@@ -67,7 +66,7 @@ const CartProfile = () => {
         </MDBRow>
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol md="10">
-            <div className='d-flex align-items-center' style={{gap: '20px'}}>
+            <div className='d-flex align-items-center' style={{ gap: '20px' }}>
               <button className='btn-grad' style={{ margin: 0 }} onClick={() => {
                 console.log('clear all')
                 const action = clearCart([])

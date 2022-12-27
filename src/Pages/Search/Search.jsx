@@ -11,25 +11,32 @@ import Helmet from "../../components/Helmet/Helmet";
 import CommonSection from "../../components/UI/Common Section/CommonSection";
 import ProductCard from "../../components/UI/ProductCard/ProductCard";
 // redux
+import { history } from '../../index';
 import {
   getAllProductsApi,
   getAllProductsByCategoryApi,
 } from "../../redux/reducers/productReducer";
+import { getFavoriteProduct, getLikeProduct, getUnLikeProduct } from "../../redux/reducers/userReducer";
+import { getStoreJson, USER_LOGIN } from "../../util/config";
 
 const Search = () => {
   const dispatch = useDispatch();
   const { productList } = useSelector((state) => state.products);
+  const { userFavorite } = useSelector((state) => state.userReducer);
   const [productData, setProductData] = useState(productList);
-
   const [pageNumber, setPageNumber] = useState(0);
 
-  useEffect(() => {
-    dispatch(getAllProductsApi());
-  }, []);
+  const setFave = (id) => {
+    return () => {
+      dispatch(getLikeProduct(id))
+    }
+  }
+  const removeFave = (id) => {
+    return () => {
+      dispatch(getUnLikeProduct(id))
+    }
 
-  useEffect(() => {
-    setProductData(productList);
-  }, [productList]);
+  }
 
   const handleSearch = (e) => {
     const { value } = e.target;
@@ -65,6 +72,25 @@ const Search = () => {
     const { value } = e.target;
     dispatch(getAllProductsByCategoryApi(value));
   };
+
+  // Get favorite product
+  const handleGetFavoriteProduct = () => {
+    if (getStoreJson(USER_LOGIN)) {
+      dispatch(getFavoriteProduct())
+    }
+    else {
+      history.push('/login');
+    }
+  }
+
+  useEffect(() => {
+    dispatch(getAllProductsApi());
+  }, []);
+
+  useEffect(() => {
+    handleGetFavoriteProduct();
+    setProductData(productList);
+  }, [productList, userFavorite]);
 
   return (
     <>
@@ -111,7 +137,7 @@ const Search = () => {
                         xs="6"
                         className="mb-4"
                       >
-                        <ProductCard product={product} />
+                        <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} />
                       </Col>
                     );
                   })}

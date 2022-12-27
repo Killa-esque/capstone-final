@@ -12,29 +12,50 @@ import Helmet from "../../components/Helmet/Helmet";
 // css
 import "../../assets/css/cart-page.css";
 //redux
-import { deleteItem } from "../../redux/reducers/productReducer";
+import { removeItem, deleteItem, increaseItem } from "../../redux/reducers/productReducer";
 import { checkOutOrder } from "../../redux/reducers/userReducer";
+import { saveStoreJson, USER_CART } from "../../util/config";
 
 const Cart = () => {
   const { totalAmount, productCart } = useSelector(
     (state) => state.products
   );
+  const { userLogin } = useSelector(
+    (state) => state.userReducer
+  );
   const dispatch = useDispatch();
+
+  const product = productCart.map((items, index) => {
+    const orderDetail = {
+      productId: String(items.id),
+      quantity: Number(items.quantity)
+    }
+    return orderDetail;
+  })
+
+
+
   // xử lý checkout
   const handleCheckout = (e) => {
     try {
       e.preventDefault()
-      const action = checkOutOrder([...productCart])
+      const action = checkOutOrder({
+        orderDetail: product,
+        email: String(userLogin.email)
+      })
       dispatch(action);
       toast.success("Checkout completed successfully");
-
     } catch (error) {
+      console.log(error)
       toast.error("Something went wrong! Try again later");
 
       console.log(error)
     }
   };
-
+  useEffect(() => {
+    localStorage.setItem('productCart', JSON.stringify(productCart))
+    localStorage.setItem('totalAmount', totalAmount)
+  }, [productCart, totalAmount])
 
   return (
     <Helmet title="Cart">
@@ -74,7 +95,7 @@ const Cart = () => {
               <div>
                 <h6 className="d-flex align-items-center justify-content-between">
                   Subtotal
-                  <span className="fs-4 fw-bold">${totalAmount}</span>
+                  <span className="fs-4 fw-bold">${Number(totalAmount)}</span>
                 </h6>
               </div>
               <p className="small-desc mt-3">
@@ -113,6 +134,13 @@ export const Tr = ({ item }) => {
   const handleDeleteItem = () => {
     dispatch(deleteItem(id));
   };
+
+  const handleIncrease = () => {
+    dispatch(increaseItem(id))
+  }
+  const handleDecrease = () => {
+    dispatch(removeItem(id))
+  }
   return (
     <tr className="text-center">
       <td className="cart__img-box">
@@ -120,7 +148,11 @@ export const Tr = ({ item }) => {
       </td>
       <td style={{ verticalAlign: 'middle' }}>{name}</td>
       <td style={{ verticalAlign: 'middle' }}>${price}</td>
-      <td style={{ verticalAlign: 'middle' }}>{quantity}</td>
+      <td className="" style={{ verticalAlign: 'middle' }}>
+        <span onClick={handleDecrease}><i className="fa fa-minus-square fs-4"></i></span>
+        <span className="fs-4 mx-2 px-1">{quantity}</span>
+        <span onClick={handleIncrease}><i className="fa fa-plus-square fs-4"></i></span>
+      </td>
       <td className="cart__item-del" style={{ verticalAlign: 'middle' }}>
         <span onClick={handleDeleteItem}>
           <i className="ri-delete-bin-line"></i>

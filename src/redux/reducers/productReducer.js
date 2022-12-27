@@ -1,15 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getStoreJson, saveStore, saveStoreJson, USER_CART } from "../../util/config";
+
+const totalAmountCheck = () => {
+  if (isNaN(Number(localStorage.getItem('totalAmount')))) {
+    return 0
+  }
+  return Number(localStorage.getItem('totalAmount'))
+}
+const totalQuantityCheck = () => {
+  if (isNaN(Number(localStorage.getItem('totalQuantity')))) {
+    return 0
+  }
+  return Number(localStorage.getItem('totalQuantity'))
+}
+const productCartCheck = () => {
+  if (JSON.parse(localStorage.getItem('productCart')) === null) {
+    return []
+  }
+  return JSON.parse(localStorage.getItem('productCart'))
+}
 const initialState = {
   productList: [],
-  totalQuantity: 0,
-  totalAmount: 0,
-  productCart: [],
+  totalQuantity: totalQuantityCheck(),
+  totalAmount: totalAmountCheck(),
+  productCart: productCartCheck(),
   productDetail: [],
   page: 1
 };
-
 const productReducer = createSlice({
   name: "productReducer",
   initialState,
@@ -52,7 +70,25 @@ const productReducer = createSlice({
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
       )
-      saveStoreJson(USER_CART, state.productCart);
+    },
+    increaseItem: (state, action) => {
+      const id = action.payload;
+      // Find the product you want to increase quantity
+      const existingItem = state.productCart?.find((item) => item.id === id);
+      state.totalQuantity++;
+      const productList = JSON.parse(localStorage.getItem('productList'))
+      const checkItem = productList?.find((item) => item.id === 1);
+      // Check the quantity of only one product left
+      if (existingItem.quantity <= checkItem.quantity) {
+        existingItem.quantity++;
+        existingItem.totalPrice = Number(existingItem.totalPrice) + Number(existingItem.price);
+      }
+      // Calculate the total amount of products in the cart after reducing the number of products
+      state.totalAmount = state.productCart?.reduce(
+        (total, item) => total + Number(item.price) * Number(item.quantity),
+        0
+      );
+
     },
     removeItem: (state, action) => {
       const id = action.payload;
@@ -77,12 +113,12 @@ const productReducer = createSlice({
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
       );
+
     },
 
     deleteItem(state, action) {
       const id = action.payload;
       const existingItem = state.productCart?.find((item) => item.id === id);
-
       if (existingItem) {
         state.productCart = state.productCart?.filter((item) => item.id !== id);
         state.totalQuantity = state.totalQuantity - existingItem.quantity;
@@ -94,14 +130,11 @@ const productReducer = createSlice({
       );
     },
 
-    clearCartAction: (state, action) => {
-      state.productCart = [];
-    }
 
   },
 });
 
-export const { getAllProductsByCategoryAction, getAllProductsAction, deleteItem, addItem, removeItem, getProductByIdAction, clearCartAction } =
+export const { getAllProductsByCategoryAction, getAllProductsAction, deleteItem, addItem, removeItem, increaseItem, getProductByIdAction, clearCartAction } =
   productReducer.actions;
 
 export default productReducer.reducer;
@@ -115,6 +148,7 @@ export const getAllProductsApi = () => {
         method: "GET",
       });
       dispatch(getAllProductsAction(result.data.content));
+      localStorage.setItem('productList', JSON.stringify(result.data.content))
     } catch (error) {
       console.log(error);
     }
