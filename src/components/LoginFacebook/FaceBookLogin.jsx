@@ -10,13 +10,13 @@ export default function FaceBookLogin() {
   }
   return (
     <div>
-      <FacebookLogin
+      {/* <FacebookLogin
         appId="690988225891975"
         autoLoad={false}
         fields="name,email,picture"
         callback={responseFacebook}
         cssClass='w-100 bg-primary fw-bold py-1 border-0 text-white rounded'
-      />
+      /> */}
     </div>
   )
 }

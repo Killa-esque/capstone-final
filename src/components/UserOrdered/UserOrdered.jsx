@@ -8,7 +8,7 @@ import '../../assets/css/profile.css'
 // components
 import CommonSection from "../../components/UI/Common Section/CommonSection";
 import Helmet from "../../components/Helmet/Helmet";
-import { USER_PROFILE, getStoreJson, USER_LOGIN } from '../../util/config';
+import { USER_PROFILE, getStoreJson } from '../../util/config';
 import { getProfileApi } from "../../redux/reducers/userReducer";
 import { deleteItem } from '../../redux/reducers/productReducer';
 const UserOrdered = () => {
