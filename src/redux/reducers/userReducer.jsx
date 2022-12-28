@@ -40,7 +40,7 @@ const userReducer = createSlice({
         return null;
       })
       state.userOrderHistory = action.payload;
-      saveStoreJson(USER_CART, state.userOrderHistory)
+      // saveStoreJson(USER_CART, state.userOrderHistory)
     },
     favoriteProduct: (state, action) => {
       state.userFavorite = action.payload;
