@@ -4,6 +4,11 @@ import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from "swiper";
+
+import 'swiper/css';
+
 // components
 import Helmet from "../../components/Helmet/Helmet";
 import Service from "../../components/Service/Service";
@@ -68,57 +73,74 @@ const Home = () => {
         {/* ================= Carousel ============= */}
         <Container>
           <Row>
-            <Col lg="6" md="6">
-              <div className="hero__content">
-                <h5 className="mb-3">Super charge your progress</h5>
-                <h1 className="mb-4 hero__title">
-                  <span>WANNA?</span> Beat the <br /> buzzer{" "}
-                  <span> at bellow</span>
-                </h1>
-                <p>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Beatae at voluptatem aperiam, quod soluta sequi?
-                </p>
-                <div className="hero__btns d-flex align-items-center gap-5 mt-4">
-                  <motion.button
-                    whileTap={{ scale: 1.1 }}
-                    className="order__btn d-flex align-items-center justify-content-between"
-                  >
-                    Order now
-                    <i className="ri-arrow-right-s-line"></i>
-                  </motion.button>
-                  <motion.button
-                    whileTap={{ scale: 1.1 }}
-                    className="all__products-btn"
-                  >
-                    <Link to="/products">See all shoes</Link>
-                  </motion.button>
-                </div>
-                <div className="d-flex align-items-center gap-5 mt-5 hero__service">
-                  <p className="d-flex align-items-center gap-2">
-                    <span className="shipping__icon">
-                      <i className="ri-car-line"></i>
-                    </span>
-                    <span> No shipping charge</span>
-                  </p>
-                  <p className="d-flex align-items-center gap-2">
-                    <span className="shipping__icon">
-                      <i className="ri-shield-check-line"></i>
-                    </span>
-                    <span> 100% secure checkout</span>
-                  </p>
-                </div>
-              </div>
-            </Col>
-            <Col lg="6" md="6">
-              <div className="hero__img">
-                <img
-                  src="https://shop.cyberlearn.vn/images/adidas-super-star-red.png"
-                  alt="hero-img"
-                  className="w-100 "
-                />
-              </div>
-            </Col>
+            <Swiper
+              autoplay={{
+                delay: 3500,
+                disableOnInteraction: false,
+              }}
+
+              modules={[Autoplay]}
+              className="mySwiper">
+              {
+                productList.slice(0, 5).map(product => (
+                  <SwiperSlide>
+                    <Col lg="6" md="6" className="hero__container">
+                      <div className="hero__content">
+                        <h5 className="mb-3">Super charge your progress</h5>
+                        <h1 className="mb-4 hero__title">
+                          <span>WANNA?</span> Beat the <br /> buzzer{" "}
+                          <span> at bellow</span>
+                        </h1>
+                        <p>
+                          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                          Beatae at voluptatem aperiam, quod soluta sequi?
+                        </p>
+                        <div className="hero__btns d-flex align-items-center gap-5 mt-4">
+                          <motion.button
+                            whileTap={{ scale: 1.1 }}
+                            className="order__btn d-flex align-items-center justify-content-between"
+                          >
+                            Order now
+                            <i className="ri-arrow-right-s-line"></i>
+                          </motion.button>
+                          <motion.button
+                            whileTap={{ scale: 1.1 }}
+                            className="all__products-btn"
+                          >
+                            <Link to="/products">See all shoes</Link>
+                          </motion.button>
+                        </div>
+                        <div className="d-flex align-items-center gap-5 mt-5 hero__service">
+                          <p className="d-flex align-items-center gap-2">
+                            <span className="shipping__icon">
+                              <i className="ri-car-line"></i>
+                            </span>
+                            <span> No shipping charge</span>
+                          </p>
+                          <p className="d-flex align-items-center gap-2">
+                            <span className="shipping__icon">
+                              <i className="ri-shield-check-line"></i>
+                            </span>
+                            <span> 100% secure checkout</span>
+                          </p>
+                        </div>
+                      </div>
+                    </Col>
+                    <Col lg="6" md="6" className="hero__container">
+                      <div className="hero__img">
+                        <img
+                          src={product.image}
+                          alt="hero-img"
+                          className="w-100 "
+                        />
+                      </div>
+                    </Col>
+                  </SwiperSlide>
+                ))
+              }
+            </Swiper>
+            {/*  */}
+
           </Row>
         </Container>
       </section>

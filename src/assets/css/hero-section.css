@@ -4,6 +4,7 @@
 
 .hero__img img {
     transform: rotate(-25deg);
+    width: 85% !important;
 }
 
 .hero__title {
@@ -70,7 +71,11 @@
     }
 }
 @media only screen and (max-width: 768px) {
-   
+    .swiper-slide {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
     .hero__content h5{
         font-size: 1rem;
     }
@@ -97,6 +102,7 @@
 }
 
 @media only screen and (max-width: 576px) {
+   
     .hero__content {
         text-align: center;
     }
@@ -107,5 +113,17 @@
 
     .hero__service {
         justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    
+
+    .hero__img img {
+        width: 50% !important;
+    }
+
+    .hero__content p{
+        display: none;
     }
 }

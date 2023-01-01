@@ -115,6 +115,7 @@ export const loginApi = (userLogin) => {
       toast.success("Đăng nhập thành công");
       history.push('/profile');
       // window.location.reload()
+      history.push('/');
     }
     catch (error) {
       console.log(error)

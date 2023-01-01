@@ -42,13 +42,13 @@ const UserProfile = () => {
   const { userProfile } = useSelector((state) => state.userReducer);
   console.log(userProfile)
   const [profile, setProfile] = useState(getProfile);
-
+console.log(getProfile)
   useEffect(() => {
     disatch(getProfileApi())
   }, [])
 
   useEffect(() => {
-    setProfile(getProfile);
+      setProfile(getProfile);
   }, [userProfile]);
 
   const emailLocalStore = getStoreJson(USER_LOGIN)?.email;

@@ -11,6 +11,10 @@
     color: #777;
 }
 
+ .swiper-slide{
+    display: flex;
+ }
+
 .product__category {
     background: #df2020;
     text-align: center;
