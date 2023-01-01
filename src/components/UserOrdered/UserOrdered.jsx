@@ -141,9 +141,7 @@ const UserOrdered = () => {
                             <tr className="text-center">
                               <th>Image</th>
                               <th>Product Name</th>
-                              <th>Price</th>
                               <th>Quantity</th>
-                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -157,7 +155,6 @@ const UserOrdered = () => {
                                         <img src={item.image} alt="" />
                                       </td>
                                       <td style={{ verticalAlign: 'middle' }}>{item.name}</td>
-                                      <td style={{ verticalAlign: 'middle' }}>${item.price}</td>
                                       <td className="cart__item-del" style={{ verticalAlign: 'middle' }}>
                                         <span onClick={() => {
                                           dispatch(deleteItem(item.id));

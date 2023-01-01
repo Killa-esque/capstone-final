@@ -73,7 +73,7 @@ export const registerAPI = (userRegister) => {
       }
       // Update reducer
       const result = await http.post('/api/Users/signup', userDispatch)
-      alert('Đăng ký thành công')
+      toast.success('Đăng ký thành công')
       const action = registerAction(result.data.content)
       dispatch(action)
       // go to login
@@ -114,8 +114,8 @@ export const loginApi = (userLogin) => {
       const actionGetProfile = getProfileAction();
       dispatch(actionGetProfile);
       toast.success("Đăng nhập thành công");
-      // window.location.reload()
       history.push('/');
+      // window.location.reload()
     }
     catch (error) {
       console.log(error)
@@ -136,12 +136,12 @@ export const getTokenFacebook = (response) => {
       saveStoreJson(USER_LOGIN, result.data.content);
       saveStore(ACCESS_TOKEN, result.data.content.accessToken);
       saveStore(TOKEN_FACEBOOK, response.accessToken);
-      console.log(getStore(ACCESS_TOKEN));
       // Gọi axios lấy dữ liệu api từ token  
       // Gọi api getprofile
       const actionGetProfile = getProfileAction();
       dispatch(actionGetProfile);
-      history.push('/profile');
+      toast.success("Đăng nhập thành công");
+      history.push('/');
     }
     catch (error) {
       console.log(error)
@@ -155,7 +155,6 @@ export const getProfileApi = () => {
       const result = await http.post('/api/Users/getProfile')
       //Sau khi lấy dữ liệu từ api về đưa lên reducer qua action creator 
       const action = getProfileAction(result.data.content);
-      console.log('profile', result.data.content)
       dispatch(action);
       saveStoreJson(USER_PROFILE, result.data.content)
     }
@@ -169,32 +168,20 @@ export const updateProfile = (user) => {
   return async (dispatch) => {
     try {
       const result = await http.post('/api/Users/updateProfile', user)
-      console.log(result)
+      localStorage.removeItem('userProfile')
+      toast.success('Update Successfully')
     } catch (error) {
+      toast.success('Update Failed')
       console.log(error)
     }
   }
 }
-
 
 export const checkOutOrder = (cart) => {
   return async (dispatch) => {
     try {
       console.log(cart)
       const result = await http.post('/api/Users/order', cart)
-      console.log(result.data.content)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
-
-export const getNewProfile = (newProfile) => {
-  return async (dispatch) => {
-    try {
-      const result = await http.post('/api/Users/updateProfile', newProfile)
-      console.log(result.data.content)
     } catch (error) {
       console.log(error)
     }
@@ -205,7 +192,6 @@ export const getFavoriteProduct = (userToken) => {
   return async (dispatch) => {
     try {
       const result = await http.get('/api/Users/getproductfavorite', userToken)
-      console.log(result.data.content);
       const action = favoriteProduct(result.data.content);
       dispatch(action);
     } catch (error) {

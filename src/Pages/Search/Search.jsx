@@ -137,7 +137,7 @@ const Search = () => {
                         xs="6"
                         className="mb-4"
                       >
-                        <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} />
+                        <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} key={index} />
                       </Col>
                     );
                   })}

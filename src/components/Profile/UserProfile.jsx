@@ -41,7 +41,7 @@ const UserProfile = () => {
   const getProfile = getStoreJson(USER_PROFILE);
   const { userProfile } = useSelector((state) => state.userReducer);
   const [profile, setProfile] = useState(getProfile);
-  
+
   useEffect(() => {
     disatch(getProfileApi())
   }, [])
@@ -53,11 +53,11 @@ const UserProfile = () => {
   const emailLocalStore = getStoreJson(USER_LOGIN)?.email;
   const formik = useFormik({
     initialValues: {
-      email: profile?.email || '',
-      password: profile?.password || '',
-      name: profile?.name || '',
+      email: userProfile?.email || '',
+      password: userProfile?.password || '',
+      name: userProfile?.name || '',
       gender: true,
-      phone: profile?.phone || '',
+      phone: userProfile?.phone || '',
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Required"),
@@ -66,17 +66,15 @@ const UserProfile = () => {
       phone: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      console.log('users', values)
       try {
         if (values.email === emailLocalStore) {
           console.log(emailLocalStore, values.email)
           disatch(updateProfile(values));
-          toast.success("Update profile successfully");
         } else {
           toast.fail("Update profile fail");
         }
-        console.log(values)
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
       }
     },
@@ -101,26 +99,15 @@ const UserProfile = () => {
           <MDBCol lg="4">
             <MDBCard className="mb-4 pb-3">
               <MDBCardBody className="text-center">
-                {profile?.image ? (
-                  <MDBCardImage
-                    src={profile?.image}
-                    alt="avatar"
-                    className="rounded-circle"
-                    style={{ width: "150px", height: "150px" }}
-                    fluid
-                  />
-                ) : (
-                  <MDBCardImage
-                    src={arrImage[Math.floor(Math.random() * arrImage.length)]}
-                    alt="avatar"
-                    className="rounded-circle"
-                    style={{ width: "150px", height: "150px" }}
-                    fluid
-                  />
-                )}
-
+                <MDBCardImage
+                  src={profile?.avatar}
+                  alt="avatar"
+                  className="rounded-circle"
+                  style={{ width: "150px", height: "150px" }}
+                  fluid
+                />
                 <p className="text-muted mb-1 mt-2">
-                  Hi, xin chào các bạn mình là {profile?.name}{" "}
+                  Hi, xin chào các bạn mình là {formik.values?.name}{" "}
                 </p>
                 <p className="text-muted mb-4">
                   Mình là học viên tại Cybersoft
