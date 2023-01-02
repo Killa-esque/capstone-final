@@ -1,4 +1,3 @@
-import CartProfile from "../../components/CartProfile/CartProfile";
 // library
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +13,6 @@ import "../../assets/css/cart-page.css";
 //redux
 import { removeItem, deleteItem, increaseItem } from "../../redux/reducers/productReducer";
 import { checkOutOrder } from "../../redux/reducers/userReducer";
-import { saveStoreJson, USER_CART } from "../../util/config";
 
 const Cart = () => {
   const { totalAmount, productCart } = useSelector(

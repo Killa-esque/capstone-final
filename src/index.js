@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // global css
 import './App.css'
 // Config Router
-import { BrowserRouter, Routes, Route, Navigate, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { Routes, Route, Navigate, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 
 // Config redux
 import { Provider } from 'react-redux';
@@ -21,7 +21,6 @@ import Profile from './Pages/Profile/Profile';
 import Search from './Pages/Search/Search';
 import Cart from './Pages/Cart/Cart';
 import Detail from './Pages/Detail/Detail';
-import Carts from './components/UI/Cart/Carts';
 
 // Templates
 import HomeTemplate from './templates/HomeTemplate';
@@ -34,12 +33,12 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <ToastContainer
-       theme="dark"
-        position="top-right"
-        autoClose={3000}
-        closeOnClick
-        pauseOnHover='false'
-      />
+      theme="dark"
+      position="top-right"
+      autoClose={3000}
+      closeOnClick
+      pauseOnHover='false'
+    />
     <HistoryRouter history={history}>
       <Routes>
         <Route path='' element={<HomeTemplate />}>

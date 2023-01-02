@@ -9,9 +9,13 @@ import { motion } from "framer-motion";
 import "../../assets/css/product-detail.css";
 import ProductCard from "../../components/UI/ProductCard/ProductCard";
 import { getUnLikeProduct, getLikeProduct, getFavoriteProduct } from "../../redux/reducers/userReducer";
+import { getStoreJson, USER_LOGIN } from "../../util/config";
+import { history } from '../../index';
+
 const Detail = () => {
   const { id } = useParams();
   const { productDetail } = useSelector((state) => state.products);
+  const { userFavorite } = useSelector((state) => state.userReducer);
   const { name, image, price, quantity, description, shortDescription } = productDetail;
   const dispatch = useDispatch();
   const [tab, setTab] = useState("desc");
@@ -30,14 +34,30 @@ const Detail = () => {
       })
     );
   };
-  const handleAddFavorite = () => {
-    const action = getFavoriteProduct();
-    dispatch(action);
-  };
-  // const handleRemoveFavorite = (id) => {
-  //   const action = getUnLikeProduct(id)
-  //   dispatch(action);
-  // };
+  const setFave = (id) => {
+    return () => {
+      dispatch(getLikeProduct(id))
+    }
+  }
+  const removeFave = (id) => {
+    return () => {
+      dispatch(getUnLikeProduct(id))
+    }
+
+  }
+  // Get favorite product
+  const handleGetFavoriteProduct = () => {
+    if (getStoreJson(USER_LOGIN)) {
+      dispatch(getFavoriteProduct())
+    }
+    else {
+      history.push('/login');
+    }
+  }
+
+  useEffect(() => {
+    handleGetFavoriteProduct();
+  }, [userFavorite]);
 
   useEffect(() => {
     getProductByIdApi();
@@ -117,22 +137,6 @@ const Detail = () => {
                   >
                     Add to Cart
                   </motion.button>
-
-                  <motion.button
-                    whileTap={{ scale: 1.2 }}
-                    className="addToCart__btn mx-2"
-                    onClick={handleAddFavorite}
-                  >
-                    Add to your favorite
-                  </motion.button>
-
-                  {/* <motion.button
-                    whileTap={{ scale: 1.2 }}
-                    className="addToCart__btn mx-2"
-                    onClick={handleRemoveFavorite(id)}
-                  >
-                  Remove from your favorite
-                </motion.button> */}
                 </div>
               </Col>
 
@@ -206,7 +210,7 @@ const Detail = () => {
                       className="mb-4"
                       key={index}
                     >
-                      <ProductCard product={product} />
+                      <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} key={index} />
                     </Col>
                   );
                 })

@@ -7,15 +7,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from "swiper";
 
+// Support for carousel
 import 'swiper/css';
 
 // components
 import Helmet from "../../components/Helmet/Helmet";
 import Service from "../../components/Service/Service";
 import ProductCard from "../../components/UI/ProductCard/ProductCard";
+
 // css
 import "../../assets/css/hero-section.css";
 import "../../assets/css/home.css";
+
 // store redux
 import { history } from '../../index';
 import {
@@ -44,7 +47,6 @@ const Home = () => {
     return () => {
       dispatch(getUnLikeProduct(id))
     }
-
   }
   // Get all product list from API
   const handleGetProducts = () => {
@@ -64,8 +66,11 @@ const Home = () => {
 
   useEffect(() => {
     handleGetFavoriteProduct();
-    handleGetProducts();
   }, [userFavorite]);
+
+  useEffect(() => {
+    handleGetProducts();
+  }, []);
 
   return (
     <Helmet title="Home">
@@ -236,7 +241,7 @@ const Home = () => {
             {productList.map((product, index) => {
               return (
                 <Col key={index} lg="3" md="4" sm='6' xs='6' className="mt-5">
-                  <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} />
+                  <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} key={index} />
                 </Col>
               );
             })}{" "}

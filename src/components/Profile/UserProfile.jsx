@@ -3,7 +3,6 @@ import {
   MDBBreadcrumbItem,
   MDBCard,
   MDBCardBody,
-  MDBCardFooter,
   MDBCardImage,
   MDBCardText,
   MDBCol,
@@ -11,54 +10,47 @@ import {
   MDBRow,
 } from "mdb-react-ui-kit";
 import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
 import { TextField } from "@mui/material";
 import { motion } from 'framer-motion'
 
+// Create form & Validation
 import { useFormik } from "formik";
+import * as Yup from "yup";
+
+// Notification
 import { toast } from "react-toastify";
+
 // Hook
 import { useDispatch, useSelector } from "react-redux";
 
 import { NavLink } from "react-router-dom";
 
 // import async function from redux
-
 import { getStoreJson, USER_PROFILE, USER_LOGIN } from "../../util/config";
 import { getProfileApi, updateProfile } from "../../redux/reducers/userReducer";
 
-//Image
-import avatar1 from "../../assets/images/avatar1.jpg";
-import avatar2 from "../../assets/images/avatar2.jpg";
-import avatar3 from "../../assets/images/avatar3.jpg";
-import avatar4 from "../../assets/images/avatar4.jpg";
-import avatar5 from "../../assets/images/avatar5.jpg";
-
-const arrImage = [avatar1, avatar2, avatar3, avatar4, avatar5];
-
 const UserProfile = () => {
   const disatch = useDispatch();
-  const getProfile = getStoreJson(USER_PROFILE);
   const { userProfile } = useSelector((state) => state.userReducer);
-  console.log(userProfile)
+  const getProfile = getStoreJson(USER_PROFILE)
   const [profile, setProfile] = useState(getProfile);
-console.log(getProfile)
+
   useEffect(() => {
     disatch(getProfileApi())
   }, [])
 
   useEffect(() => {
-      setProfile(getProfile);
+    setProfile(getProfile);
   }, [userProfile]);
 
   const emailLocalStore = getStoreJson(USER_LOGIN)?.email;
   const formik = useFormik({
     initialValues: {
-      email: profile?.email || '',
-      password: profile?.password || '',
-      name: profile?.name || '',
+      email: profile?.email,
+      password: profile?.password,
+      name: profile?.name,
       gender: true,
-      phone: profile?.phone || '',
+      phone: profile?.phone,
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Required"),
@@ -67,17 +59,14 @@ console.log(getProfile)
       phone: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      console.log('users', values)
       try {
         if (values.email === emailLocalStore) {
-          console.log(emailLocalStore, values.email)
           disatch(updateProfile(values));
-          toast.success("Update profile successfully");
         } else {
           toast.fail("Update profile fail");
         }
-        console.log(values)
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error);
       }
     },
@@ -102,26 +91,15 @@ console.log(getProfile)
           <MDBCol lg="4">
             <MDBCard className="mb-4 pb-3">
               <MDBCardBody className="text-center">
-                {profile?.image ? (
-                  <MDBCardImage
-                    src={profile?.image}
-                    alt="avatar"
-                    className="rounded-circle"
-                    style={{ width: "150px", height: "150px" }}
-                    fluid
-                  />
-                ) : (
-                  <MDBCardImage
-                    src={arrImage[Math.floor(Math.random() * arrImage.length)]}
-                    alt="avatar"
-                    className="rounded-circle"
-                    style={{ width: "150px", height: "150px" }}
-                    fluid
-                  />
-                )}
-
+                <MDBCardImage
+                  src={profile?.avatar}
+                  alt="avatar"
+                  className="rounded-circle"
+                  style={{ width: "150px", height: "150px" }}
+                  fluid
+                />
                 <p className="text-muted mb-1 mt-2">
-                  Hi, xin chào các bạn mình là {profile?.name}{" "}
+                  Hi, xin chào các bạn mình là {formik.values?.name}{" "}
                 </p>
                 <p className="text-muted mb-4">
                   Mình là học viên tại Cybersoft

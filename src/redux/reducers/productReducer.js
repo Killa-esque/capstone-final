@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getStoreJson, saveStore, saveStoreJson, USER_CART } from "../../util/config";
 
 const totalAmountCheck = () => {
   if (isNaN(Number(localStorage.getItem('totalAmount')))) {
