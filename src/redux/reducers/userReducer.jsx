@@ -21,15 +21,12 @@ const userReducer = createSlice({
     registerAction: (state, action) => {
       state.userRegister = action.payload;
     },
-    sortByChooseAction: (state, action) => {
-      state.sortBy = action.payload;
-    },
     loginAction: (state, action) => {
       state.userLogin = action.payload;
     },
     checkOutOrderAction: (state, action) => {
       const newArrOrder = action.payload;
-      newArrOrder?.map((newItem, index) => {
+      newArrOrder?.map((newItem) => {
         let isExist = state.userOrderHistory?.find(oldItem => oldItem.id === newItem.id);
         if (!isExist) {
           state.userProfile.ordersHistory?.push(newItem);
@@ -44,7 +41,6 @@ const userReducer = createSlice({
     },
     favoriteProduct: (state, action) => {
       state.userFavorite = action.payload;
-      // saveStoreJson(USER_FAVORITE, state.userFavorite)
     },
     getProfileAction: (state, action) => {
       state.userProfile = action.payload;
@@ -52,7 +48,7 @@ const userReducer = createSlice({
   },
 });
 
-export const { registerAction, sortByChooseAction, loginAction, checkOutOrderAction, favoriteProduct, getProfileAction } = userReducer.actions
+export const { registerAction, loginAction, checkOutOrderAction, favoriteProduct, getProfileAction } = userReducer.actions
 
 export default userReducer.reducer
 
@@ -80,18 +76,7 @@ export const registerAPI = (userRegister) => {
       history.push('/login')
     }
     catch (error) {
-      console.log(error)
-    }
-  }
-}
-export const getSortBy = (types) => {
-  console.log(types)
-  return async (dispatch) => {
-    try {
-      const action = sortByChooseAction(types);
-      dispatch(action)
-    }
-    catch (error) {
+      toast.error('Register Failed')
       console.log(error)
     }
   }
@@ -118,6 +103,7 @@ export const loginApi = (userLogin) => {
       // window.location.reload()
     }
     catch (error) {
+      toast.error('Login Failed')
       console.log(error)
     }
   }
@@ -144,6 +130,7 @@ export const getTokenFacebook = (response) => {
       history.push('/');
     }
     catch (error) {
+      toast.error('FaceBook Login Failed')
       console.log(error)
     }
   }
@@ -159,6 +146,7 @@ export const getProfileApi = () => {
       saveStoreJson(USER_PROFILE, result.data.content)
     }
     catch (error) {
+      toast.error('Get Profile Failed')
       console.log(error)
     }
   }
@@ -171,7 +159,7 @@ export const updateProfile = (user) => {
       localStorage.removeItem('userProfile')
       toast.success('Update Successfully')
     } catch (error) {
-      toast.success('Update Failed')
+      toast.error('Update Failed')
       console.log(error)
     }
   }
@@ -183,6 +171,7 @@ export const checkOutOrder = (cart) => {
       console.log(cart)
       const result = await http.post('/api/Users/order', cart)
     } catch (error) {
+      toast.error('Submit Order Failed')
       console.log(error)
     }
   }
@@ -195,19 +184,20 @@ export const getFavoriteProduct = (userToken) => {
       const action = favoriteProduct(result.data.content);
       dispatch(action);
     } catch (error) {
+      toast.error('Get Failed')
       console.log(error)
     }
   }
 }
 
 export const getLikeProduct = (id) => {
-  console.log(id)
   return async (dispatch) => {
     try {
       const result = await http.get(`/api/Users/like?productId=${id}`)
       toast.success(result.data.content)
     }
     catch (error) {
+      toast.error('Like Failed')
       console.log(error)
     }
   }
@@ -219,6 +209,7 @@ export const getUnLikeProduct = (id) => {
       toast.success(result.data.content)
     }
     catch (error) {
+      toast.error('Unlike Failed')
       console.log(error)
     }
   }

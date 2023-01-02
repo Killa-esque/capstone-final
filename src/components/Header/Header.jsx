@@ -128,7 +128,7 @@ const Header = () => {
                 }}><Link to={"/home"}><i className="fa fa-sign-out-alt"></i></Link></span>}
                 {userLogin ? <span style={{ fontSize: '1rem' }}>
                   <Link to='/profile' className="text-black"><h5 className="fs-6">{(userLogin?.email.substring(0, 10) + '...')}</h5></Link>
-                </span> : ''}
+                </span> : 'Your profile'}
               </span>
               <span className="mobile__menu" onClick={handleToggleMenu}>
                 <i className="ri-menu-line"></i>

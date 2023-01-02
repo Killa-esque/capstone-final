@@ -3,7 +3,6 @@ import {
   MDBBreadcrumbItem,
   MDBCard,
   MDBCardBody,
-  MDBCardFooter,
   MDBCardImage,
   MDBCardText,
   MDBCol,
@@ -11,35 +10,29 @@ import {
   MDBRow,
 } from "mdb-react-ui-kit";
 import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
 import { TextField } from "@mui/material";
 import { motion } from 'framer-motion'
 
+// Create form & Validation
 import { useFormik } from "formik";
+import * as Yup from "yup";
+
+// Notification
 import { toast } from "react-toastify";
+
 // Hook
 import { useDispatch, useSelector } from "react-redux";
 
 import { NavLink } from "react-router-dom";
 
 // import async function from redux
-
 import { getStoreJson, USER_PROFILE, USER_LOGIN } from "../../util/config";
 import { getProfileApi, updateProfile } from "../../redux/reducers/userReducer";
 
-//Image
-import avatar1 from "../../assets/images/avatar1.jpg";
-import avatar2 from "../../assets/images/avatar2.jpg";
-import avatar3 from "../../assets/images/avatar3.jpg";
-import avatar4 from "../../assets/images/avatar4.jpg";
-import avatar5 from "../../assets/images/avatar5.jpg";
-
-const arrImage = [avatar1, avatar2, avatar3, avatar4, avatar5];
-
 const UserProfile = () => {
   const disatch = useDispatch();
-  const getProfile = getStoreJson(USER_PROFILE);
   const { userProfile } = useSelector((state) => state.userReducer);
+  const getProfile = getStoreJson(USER_PROFILE)
   const [profile, setProfile] = useState(getProfile);
 
   useEffect(() => {
@@ -53,11 +46,11 @@ const UserProfile = () => {
   const emailLocalStore = getStoreJson(USER_LOGIN)?.email;
   const formik = useFormik({
     initialValues: {
-      email: userProfile?.email || '',
-      password: userProfile?.password || '',
-      name: userProfile?.name || '',
+      email: profile?.email,
+      password: profile?.password,
+      name: profile?.name,
       gender: true,
-      phone: userProfile?.phone || '',
+      phone: profile?.phone,
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Required"),
@@ -68,7 +61,6 @@ const UserProfile = () => {
     onSubmit: (values) => {
       try {
         if (values.email === emailLocalStore) {
-          console.log(emailLocalStore, values.email)
           disatch(updateProfile(values));
         } else {
           toast.fail("Update profile fail");
