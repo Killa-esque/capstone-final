@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify';
 import { history } from '../../index';
-import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_FAVORITE, USER_HISTORY, USER_LOGIN, USER_PROFILE } from '../../util/config';
+import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_LOGIN, USER_PROFILE } from '../../util/config';
 
 const initialState = {
   userRegister: null,
@@ -61,12 +61,6 @@ export const registerAPI = (userRegister) => {
       const userDispatch = { ...userRegister }
       // Delete confirmPassword
       delete userDispatch.confirmPassword
-      if (userDispatch.gender === "1") {
-        userDispatch.gender = true
-      }
-      else if (userDispatch.gender === "2") {
-        userDispatch.gender = false
-      }
       // Update reducer
       const result = await http.post('/api/Users/signup', userDispatch)
       toast.success('Đăng ký thành công')
@@ -168,8 +162,8 @@ export const updateProfile = (user) => {
 export const checkOutOrder = (cart) => {
   return async (dispatch) => {
     try {
-      console.log(cart)
       const result = await http.post('/api/Users/order', cart)
+      toast.success('Submit Order Successfully')
     } catch (error) {
       toast.error('Submit Order Failed')
       console.log(error)

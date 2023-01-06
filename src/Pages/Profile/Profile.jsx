@@ -93,7 +93,7 @@ const Profile = () => {
   useEffect(() => {
     disatch(getProfileApi())
   }, [])
-  
+
   // Re-load when userProfile or userFavorite is updated
   useEffect(() => {
     handleGetFavoriteProduct();
@@ -188,9 +188,9 @@ const Profile = () => {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />
-                        {formik.errors.email ?? (
+                        {formik.errors.email && formik.errors.email ? (
                           <p className="text-danger">{formik.errors.email}</p>
-                        )}
+                        ) : null}
                       </MDBCol>
 
                     </MDBRow>
@@ -210,9 +210,9 @@ const Profile = () => {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />
-                        {formik.errors.name ?? (
+                        {formik.errors.name && formik.touched.name ? (
                           <p className="text-warning">{formik.errors.name}</p>
-                        )}
+                        ) : null}
                       </MDBCol>
                     </MDBRow>
                     <hr />
@@ -231,9 +231,8 @@ const Profile = () => {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />
-                        {formik.errors.phone ?? (
-                          <p className="text-danger">{formik.errors.phone}</p>
-                        )}
+
+                        {formik.errors.phone && formik.touched.phone ? (<p className="text-danger">{formik.errors.phone}</p>) : null}
                       </MDBCol>
                     </MDBRow>
                     <hr />
@@ -252,9 +251,9 @@ const Profile = () => {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />{" "}
-                        {formik.errors.password ?? (
+                        {formik.errors.password && formik.touched.password ? (
                           <p className="text-danger">{formik.errors.password}</p>
-                        )}
+                        ) : null}
                       </MDBCol>
                     </MDBRow>
                     <hr />
@@ -404,7 +403,6 @@ const Profile = () => {
                               <tr className="text-center">
                                 <th>Image</th>
                                 <th>Product Name</th>
-                                {/* <th>Quantity</th> */}
                               </tr>
                             </thead>
                             <tbody>
@@ -417,13 +415,6 @@ const Profile = () => {
                                           <img src={item.image} alt="" />
                                         </td>
                                         <td style={{ verticalAlign: 'middle' }}>{item.name}</td>
-                                        {/* <td className="cart__item-del" style={{ verticalAlign: 'middle' }}>
-                                          <span onClick={() => {
-                                            dispatch(deleteItem(item.id));
-                                          }}>
-                                            <i className="ri-delete-bin-line"></i>
-                                          </span>
-                                        </td> */}
                                       </tr>
                                     )
                                   })}

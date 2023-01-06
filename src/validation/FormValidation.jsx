@@ -30,8 +30,8 @@ export const registerSchema = yup.object().shape({
     .required('Required'),
   gender: yup
     .boolean()
-    // .oneOf([true, false], 'Please choose your sex')
     .required('Please choose your sex')
+  // .oneOf([true, false], 'Please choose your sex')
 })
 
 export const loginSchema = yup.object().shape({
