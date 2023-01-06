@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify';
 import { history } from '../../index';
-import { ACCESS_TOKEN, getStore, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_LOGIN, USER_PROFILE } from '../../util/config';
+import { ACCESS_TOKEN, getStoreJson, http, saveStore, saveStoreJson, TOKEN_FACEBOOK, USER_CART, USER_LOGIN, USER_PROFILE } from '../../util/config';
 
 const initialState = {
   userRegister: null,
-  sortByTypes: ['Name', 'Price', 'Quantity'],
   sortBy: 'Name',
   userLogin: getStoreJson(USER_LOGIN),
   userProfile: getStoreJson(USER_PROFILE),
@@ -87,7 +86,6 @@ export const loginApi = (userLogin) => {
       //Lưu localstorage
       saveStoreJson(USER_LOGIN, result.data.content);
       saveStore(ACCESS_TOKEN, result.data.content.accessToken);
-      console.log(getStore(ACCESS_TOKEN));
       // Gọi axios lấy dữ liệu api từ token  
       // Gọi api getprofile
       const actionGetProfile = getProfileAction();

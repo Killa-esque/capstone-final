@@ -47,12 +47,8 @@ import { toast } from "react-toastify";
 
 
 const Profile = () => {
-
   const disatch = useDispatch();
-
   const { userFavorite, userProfile } = useSelector((state) => state.userReducer);
-  const getProfile = getStoreJson(USER_PROFILE);
-  const [profile, setProfile] = useState(userProfile);
   const [activeTab, setactiveTab] = useState('1');
   const [pageNumber, setPageNumber] = useState(0);
   const dispatch = useDispatch();
@@ -62,12 +58,12 @@ const Profile = () => {
   // Get the visited page
   const vistedPage = pageNumber * productPerTab;
   // Show the product each page
-  const displayPage = profile?.ordersHistory.slice(
+  const displayPage = userProfile?.ordersHistory.slice(
     vistedPage,
     vistedPage + productPerTab
   );
   // Calculate the page
-  const pageCount = Math.ceil(profile?.ordersHistory?.length / productPerTab);
+  const pageCount = Math.ceil(userProfile?.ordersHistory?.length / productPerTab);
   // Function to paginate
   const changePage = ({ selected }) => {
     setPageNumber(selected);
@@ -81,6 +77,7 @@ const Profile = () => {
 
   // Get favorite product
   const handleGetFavoriteProduct = () => {
+    console.log('zo fave')
     if (getStoreJson(USER_LOGIN)) {
       dispatch(getFavoriteProduct())
     }
@@ -89,27 +86,36 @@ const Profile = () => {
     }
   }
 
+  const handleGetProfile = () => {
+    if (getStoreJson(USER_LOGIN)) {
+      dispatch(getProfileApi())
+    }
+  }
+
   // Load only once time
   useEffect(() => {
-    disatch(getProfileApi())
+    handleGetFavoriteProduct();
   }, [])
+  useEffect(() => {
+    handleGetProfile();;
+  }, [userFavorite])
 
   // Re-load when userProfile or userFavorite is updated
-  useEffect(() => {
-    handleGetFavoriteProduct();
-    disatch(getProfileApi())
-    setProfile(getProfile);
-  }, [userProfile, userFavorite]);
+  // useEffect(() => {
+  //   handleGetFavoriteProduct();
+  //   handleGetProfile();
+  //   setProfile(getProfile);
+  // }, [userProfile, userFavorite]);
 
   // Form & Validation
   const emailLocalStore = getStoreJson(USER_LOGIN)?.email;
   const formik = useFormik({
     initialValues: {
-      email: profile?.email,
-      password: profile?.password || '',
-      name: profile?.name,
+      email: userProfile?.email,
+      password: userProfile?.password || '',
+      name: userProfile?.name,
       gender: true,
-      phone: profile?.phone,
+      phone: userProfile?.phone,
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Required"),
@@ -154,7 +160,7 @@ const Profile = () => {
               <MDBCard className="mb-4 pb-3">
                 <MDBCardBody className="text-center">
                   <MDBCardImage
-                    src={profile?.avatar}
+                    src={userProfile?.avatar}
                     alt="avatar"
                     className="rounded-circle"
                     style={{ width: "150px", height: "150px" }}
@@ -348,7 +354,7 @@ const Profile = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {profile?.ordersHistory?.length !== 0 ? (
+                      {userProfile?.ordersHistory?.length !== 0 ? (
                         <>
                           {displayPage?.map((order, index) => {
                             return (
