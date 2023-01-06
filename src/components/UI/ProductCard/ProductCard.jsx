@@ -1,5 +1,5 @@
 // library
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
@@ -39,7 +39,7 @@ const ProductCard = ({ product, setFave, removeFave, idProd, userFavorite }) => 
         <motion.button
           whileHover={{ scale: 1.1 }}
           className="position-absolute btn-like"
-          onClick={removeFave(idProd)}
+          onClick={() => { removeFave(idProd)(idProd) }}
         >
           <i className='fa fa-heart fs-5' style={{ color: 'red' }}></i>
         </motion.button>
@@ -49,7 +49,7 @@ const ProductCard = ({ product, setFave, removeFave, idProd, userFavorite }) => 
       <motion.button
         whileHover={{ scale: 1.1 }}
         className="position-absolute btn-unlike"
-        onClick={setFave(idProd)}
+        onClick={() => { setFave(idProd)(idProd) }}
       >
         <i className='fa fa-heart fs-5' style={{ color: 'rgba(0, 0, 0, 0.1)' }}></i>
       </motion.button>
@@ -86,4 +86,4 @@ const ProductCard = ({ product, setFave, removeFave, idProd, userFavorite }) => 
   )
 }
 
-export default ProductCard
+export default memo(ProductCard)

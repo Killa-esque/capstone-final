@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { } from 'react'
 // Form validation
-import { Field, Form, Formik, useFormik } from 'formik'
-import * as yup from 'yup'
+import { Field, Form, Formik } from 'formik'
 // css
 import "../../assets/css/register-bg.css";
 import "../../assets/css/button-submit.css"
@@ -20,7 +19,6 @@ const Register = () => {
   // Hook
   const dispatch = useDispatch()
 
-  const [valid, setValid] = useState(false);
 
   return (
 

@@ -161,9 +161,7 @@ export const getAllProductsByCategoryApi = (id) => {
         url: `https://shop.cyberlearn.vn/api/Product/getProductByCategory?categoryId=${id}`,
         method: "GET",
       });
-
       dispatch(getAllProductsByCategoryAction(result.data.content));
-      console.log(result.data.content)
     } catch (error) {
       console.log(error);
     }

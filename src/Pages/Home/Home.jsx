@@ -1,5 +1,5 @@
 // library
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -48,6 +48,10 @@ const Home = () => {
       dispatch(getUnLikeProduct(id))
     }
   }
+
+  let callBackSetFave = useCallback(setFave, [])
+  let callBackRemoveFave = useCallback(removeFave, [])
+
   // Get all product list from API
   const handleGetProducts = () => {
     const action = getAllProductsApi();
@@ -241,7 +245,7 @@ const Home = () => {
             {productList.map((product, index) => {
               return (
                 <Col key={index} lg="3" md="4" sm='6' xs='6' className="mt-5">
-                  <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} />
+                  <ProductCard product={product} setFave={callBackSetFave} removeFave={callBackRemoveFave} idProd={product.id} userFavorite={userFavorite} />
                 </Col>
               );
             })}{" "}
