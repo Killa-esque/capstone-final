@@ -87,10 +87,15 @@ const Search = () => {
     dispatch(getAllProductsApi());
   }, []);
 
+
   useEffect(() => {
     handleGetFavoriteProduct();
+  }, [userFavorite]);
+
+
+  useEffect(() => {
     setProductData(productList);
-  }, [productList, userFavorite]);
+  }, [productList]);
 
   return (
     <>
