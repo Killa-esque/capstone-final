@@ -241,7 +241,7 @@ const Home = () => {
             {productList.map((product, index) => {
               return (
                 <Col key={index} lg="3" md="4" sm='6' xs='6' className="mt-5">
-                  <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} key={index} />
+                  <ProductCard product={product} setFave={setFave} removeFave={removeFave} idProd={product.id} userFavorite={userFavorite} />
                 </Col>
               );
             })}{" "}

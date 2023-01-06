@@ -23,7 +23,7 @@ const Cart = () => {
   );
   const dispatch = useDispatch();
 
-  const product = productCart.map((items, index) => {
+  const product = productCart.map((items) => {
     const orderDetail = {
       productId: String(items.id),
       quantity: Number(items.quantity)

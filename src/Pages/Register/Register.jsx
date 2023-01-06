@@ -10,7 +10,6 @@ import logo from "../../assets/images/logo.png";
 //
 import { registerSchema } from '../../validation/FormValidation';
 import CustomInput from '../../components/CustomInput/CustomInput';
-import CustomSelect from '../../components/CustomSelect/CustomSelect';
 import { useDispatch } from 'react-redux';
 import { registerAPI } from '../../redux/reducers/userReducer';
 
@@ -76,16 +75,13 @@ const Register = () => {
             type='text'
             placeholder='Enter your Phone Number'
           />
-          <CustomSelect
-            label='Gender'
-            name='gender'
-            type='text'
-            placeholder='Please select your gender'
-          >
-            <option value={0}>Please select your gender</option>
-            <option value={1}>Men</option>
-            <option value={2}>Female</option>
-          </ CustomSelect>
+          <Field className="form-select form-select-md mb-4 mt-2" as="select" name="gender">
+            <option value="true">Male</option>
+            <option value="false">Female</option>
+          </Field>
+          {props.errors.gender && props.touched.gender ? (
+            <div className='text-danger'>{props.errors.gender}</div>
+          ) : null}
           <div className='text-center'>
             <button className='btn-grad' style={{ margin: 0 }} type="submit">Register</button>
           </div>
